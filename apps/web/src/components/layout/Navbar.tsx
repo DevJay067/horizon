@@ -389,13 +389,27 @@ export const Navbar: React.FC = () => {
                 </AnimatePresence>
               </div>
             ) : (
-              <button
-                type="button"
-                onClick={() => setIsAuthOpen(true)}
-                className="px-6 py-2.5 rounded-full bg-[#0A0A0A] text-white text-xs font-semibold hover:bg-neutral-800 active:scale-95 transition-all shadow-sm cursor-pointer"
-              >
-                Sign In
-              </button>
+              <div className="flex items-center gap-2.5">
+                <div
+                  onClick={() => setIsAuthOpen(true)}
+                  className="flex items-center gap-2 px-2.5 py-1 rounded-full bg-neutral-50 hover:bg-neutral-100 border border-neutral-200/90 text-neutral-800 text-xs font-medium transition-all select-none cursor-pointer"
+                  title="Operator: hack jay (HA)"
+                >
+                  <div className="w-5 h-5 rounded-full bg-[#0A0A0A] text-white flex items-center justify-center text-[10px] font-bold tracking-tight">
+                    HA
+                  </div>
+                  <span className="text-[11px] font-semibold text-neutral-900 hidden sm:inline">hack jay</span>
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#2DD4BF] animate-pulse" />
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => setIsAuthOpen(true)}
+                  className="px-6 py-2.5 rounded-full bg-[#0A0A0A] text-white text-xs font-semibold hover:bg-neutral-800 active:scale-95 transition-all shadow-sm cursor-pointer"
+                >
+                  Sign In
+                </button>
+              </div>
             )}
 
             {/* Mobile menu trigger */}

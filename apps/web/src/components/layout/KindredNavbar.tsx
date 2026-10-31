@@ -2,15 +2,28 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router';
 import { useAuth } from '../../context/useAuth';
 import { AuthModal } from '../auth/AuthModal';
+import { CommandPalette } from './CommandPalette';
 import { HorizonLogo } from '../common/HorizonLogo';
-import { Menu, X, ArrowUpRight, ShieldCheck, User as UserIcon, LogOut } from 'lucide-react';
+import { Menu, X, ArrowUpRight, ShieldCheck, User as UserIcon, LogOut, Search } from 'lucide-react';
 import { cn } from '../../lib/utils';
 
 export const KindredNavbar: React.FC = () => {
   const { user, logout } = useAuth();
   const [isAuthOpen, setIsAuthOpen] = useState(false);
+  const [isCmdOpen, setIsCmdOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [hidden, setHidden] = useState(false);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        setIsCmdOpen((prev) => !prev);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
 
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -70,22 +83,50 @@ export const KindredNavbar: React.FC = () => {
             </nav>
           </div>
 
-          {/* Right Action: Sign In Button */}
+          {/* Right Action: Search + Avatar 'hack jay HA' + Sign In */}
           <div className="hidden sm:flex items-center gap-3">
+            {/* Search Button with ⌘K */}
+            <button
+              type="button"
+              onClick={() => setIsCmdOpen(true)}
+              className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-neutral-50 hover:bg-neutral-100 border border-neutral-200/80 text-neutral-500 hover:text-neutral-900 text-xs transition-colors cursor-pointer"
+              aria-label="Open command search"
+            >
+              <Search className="w-3.5 h-3.5 text-neutral-400" />
+              <span className="text-[11px] font-sans">Search</span>
+              <kbd className="px-1.5 py-0.5 rounded bg-white border border-neutral-200 text-[10px] font-mono text-neutral-400">
+                ⌘K
+              </kbd>
+            </button>
+
+            {/* User Avatar Chip: hack jay HA */}
+            <div
+              onClick={() => (user ? null : setIsAuthOpen(true))}
+              className="flex items-center gap-2 px-2.5 py-1 rounded-full bg-neutral-50 hover:bg-neutral-100 border border-neutral-200/90 text-neutral-800 text-xs font-medium transition-all select-none cursor-pointer"
+              title={user ? `Signed in as ${user.email || 'hack jay'}` : 'Click to inspect operator credential'}
+            >
+              <div className="w-5 h-5 rounded-full bg-[#0A0A0A] text-white flex items-center justify-center text-[10px] font-bold tracking-tight">
+                HA
+              </div>
+              <span className="text-[11px] font-semibold text-neutral-900">hack jay</span>
+              <span className="w-1.5 h-1.5 rounded-full bg-[#2DD4BF] animate-pulse" />
+            </div>
+
+            {/* Sign In / Command Center */}
             {user ? (
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2">
                 <Link
                   to="/dashboard"
-                  className="px-5 py-2.5 rounded-full bg-black text-white text-xs font-medium hover:bg-neutral-800 transition-all flex items-center gap-2 shadow-sm"
+                  className="px-5 py-2 rounded-full bg-black text-white text-xs font-semibold hover:bg-neutral-800 transition-all flex items-center gap-2 shadow-sm"
                 >
-                  <ShieldCheck className="w-3.5 h-3.5 text-[#5EEAD4]" />
+                  <ShieldCheck className="w-3.5 h-3.5 text-[#2DD4BF]" />
                   <span>Command Center</span>
                 </Link>
                 <button
                   type="button"
                   onClick={() => logout()}
                   title="Sign out operator"
-                  className="p-2 rounded-full border border-neutral-200 text-neutral-600 hover:text-black hover:border-neutral-300 transition-colors"
+                  className="p-2 rounded-full border border-neutral-200 text-neutral-600 hover:text-black hover:border-neutral-300 transition-colors cursor-pointer"
                 >
                   <LogOut className="w-3.5 h-3.5" />
                 </button>
@@ -168,6 +209,7 @@ export const KindredNavbar: React.FC = () => {
       </header>
 
       <AuthModal isOpen={isAuthOpen} onClose={() => setIsAuthOpen(false)} />
+      <CommandPalette isOpen={isCmdOpen} onClose={() => setIsCmdOpen(false)} />
     </>
   );
 };

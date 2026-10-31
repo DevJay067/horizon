@@ -557,7 +557,7 @@ export const ArchitectPage: React.FC = () => {
                   {/* Header label */}
                   <div className="flex items-center gap-2 text-[11px] font-mono font-medium text-[#71717A] px-1">
                     {msg.sender === "agent" && (
-                      <div className="w-4 h-4 rounded-md overflow-hidden bg-[#18181B] border border-white/[0.1] flex items-center justify-center p-0.5 shrink-0">
+                      <div className="w-4 h-4 rounded-md overflow-hidden bg-white border border-[#E5E5E5] shadow-xs flex items-center justify-center p-0.5 shrink-0">
                         <img
                           src="/logo.png"
                           alt="Horizon Agent"
@@ -565,13 +565,13 @@ export const ArchitectPage: React.FC = () => {
                         />
                       </div>
                     )}
-                    <span className="font-semibold text-[#A1A1AA]">
+                    <span className="font-semibold text-[#525252]">
                       {msg.sender === "user" ? "Operator" : "Horizon SRE Copilot"}
                     </span>
                     <span>&bull;</span>
                     <span>{msg.timestamp}</span>
                     {msg.mode && (
-                      <span className="text-[9px] px-2 py-0.5 rounded-full font-mono uppercase bg-[#18181B] text-[#71717A] border border-white/[0.08]">
+                      <span className="text-[9px] px-2 py-0.5 rounded-full font-mono uppercase bg-neutral-100 text-[#525252] border border-[#E5E5E5]">
                         {msg.mode}
                       </span>
                     )}
@@ -582,8 +582,8 @@ export const ArchitectPage: React.FC = () => {
                     className={cn(
                       "leading-relaxed transition-all",
                       msg.sender === "user"
-                        ? "max-w-[85%] sm:max-w-[75%] p-4 bg-[#1E1B4B] text-[#EDEDED] rounded-2xl rounded-tr-xs border border-[#6366F1]/30 font-medium text-xs sm:text-[13px] shadow-sm"
-                        : "w-full max-w-[98%] sm:max-w-[95%] p-5 sm:p-6 bg-[#18181B] text-[#EDEDED] rounded-2xl rounded-tl-xs border border-white/[0.08] shadow-md space-y-4",
+                        ? "max-w-[85%] sm:max-w-[75%] p-4 bg-[#0A0A0A] text-white rounded-2xl rounded-tr-xs border border-black font-medium text-xs sm:text-[13px] shadow-sm"
+                        : "w-full max-w-[98%] sm:max-w-[95%] p-5 sm:p-6 bg-white text-[#0A0A0A] rounded-2xl rounded-tl-xs border border-[#E5E5E5] shadow-[6px_6px_20px_rgba(0,0,0,0.025),-4px_-4px_16px_rgba(255,255,255,0.95),inset_0_1px_0_rgba(255,255,255,1)] space-y-4",
                     )}
                   >
                     {/* Markdown Renderer */}
@@ -595,12 +595,12 @@ export const ArchitectPage: React.FC = () => {
 
                     {/* Thinking Process Accordion */}
                     {msg.reasoning && (
-                      <div className="p-3.5 rounded-xl bg-[#0E0E10] border border-white/[0.08] text-[11px] font-mono space-y-1.5">
-                        <div className="flex items-center gap-2 text-[#22D3EE] font-bold">
+                      <div className="p-3.5 rounded-xl bg-[#F5F5F4] border border-[#E5E5E5] shadow-[inset_1px_1px_3px_rgba(0,0,0,0.06),inset_-1px_-1px_3px_rgba(255,255,255,0.85)] text-[11px] font-mono space-y-1.5">
+                        <div className="flex items-center gap-2 text-teal-700 font-bold">
                           <Sparkles className="w-3.5 h-3.5" />
                           <span>Kahn’s Topological Reasoning Stream</span>
                         </div>
-                        <p className="text-[#A1A1AA] text-[11px] leading-relaxed font-sans font-medium">
+                        <p className="text-[#525252] text-[11px] leading-relaxed font-sans font-medium">
                           {msg.reasoning}
                         </p>
                       </div>
@@ -612,11 +612,11 @@ export const ArchitectPage: React.FC = () => {
                       (() => {
                         const decoded = msg.decoded;
                         return (
-                          <div className="mt-4 rounded-xl border border-white/[0.08] bg-[#0E0E10] overflow-hidden shadow-lg">
+                          <div className="mt-4 rounded-xl border border-[#E5E5E5] bg-white overflow-hidden shadow-xs">
                             {/* Top Bar: Tabs & Controls */}
-                            <div className="px-4 py-3 bg-[#141416] border-b border-white/[0.08] flex flex-wrap items-center justify-between gap-3">
+                            <div className="px-4 py-3 bg-[#FAFAF9] border-b border-[#E5E5E5] flex flex-wrap items-center justify-between gap-3">
                               {/* Tab Switcher */}
-                              <div className="flex items-center gap-1.5 p-1 rounded-lg bg-[#18181B] border border-white/[0.08]">
+                              <div className="flex items-center gap-1.5 p-1 rounded-lg bg-[#F5F5F4] border border-[#E5E5E5]">
                                 <button
                                   onClick={() =>
                                     setActiveTabs((prev) => ({
@@ -627,8 +627,8 @@ export const ArchitectPage: React.FC = () => {
                                   className={cn(
                                     "px-3 py-1.5 rounded-md font-bold text-xs transition-all cursor-pointer flex items-center gap-1.5",
                                     currentTab === "dag"
-                                      ? "bg-[#6366F1] text-white shadow-xs"
-                                      : "text-[#A1A1AA] hover:text-[#EDEDED]",
+                                      ? "bg-[#0A0A0A] text-white shadow-xs"
+                                      : "text-[#6B6B6B] hover:text-[#0A0A0A]",
                                   )}
                                 >
                                   <Network className="w-3.5 h-3.5" />
@@ -645,8 +645,8 @@ export const ArchitectPage: React.FC = () => {
                                   className={cn(
                                     "px-3 py-1.5 rounded-md font-bold text-xs transition-all cursor-pointer flex items-center gap-1.5",
                                     currentTab === "yaml"
-                                      ? "bg-[#6366F1] text-white shadow-xs"
-                                      : "text-[#A1A1AA] hover:text-[#EDEDED]",
+                                      ? "bg-[#0A0A0A] text-white shadow-xs"
+                                      : "text-[#6B6B6B] hover:text-[#0A0A0A]",
                                   )}
                                 >
                                   <FileCode className="w-3.5 h-3.5" />
@@ -663,8 +663,8 @@ export const ArchitectPage: React.FC = () => {
                                   className={cn(
                                     "px-3 py-1.5 rounded-md font-bold text-xs transition-all cursor-pointer flex items-center gap-1.5",
                                     currentTab === "rollout"
-                                      ? "bg-[#6366F1] text-white shadow-xs"
-                                      : "text-[#A1A1AA] hover:text-[#EDEDED]",
+                                      ? "bg-[#0A0A0A] text-white shadow-xs"
+                                      : "text-[#6B6B6B] hover:text-[#0A0A0A]",
                                   )}
                                 >
                                   <RotateCcw className="w-3.5 h-3.5" />
@@ -675,8 +675,8 @@ export const ArchitectPage: React.FC = () => {
                               {/* Right side actions & Status */}
                               <div className="flex flex-wrap items-center gap-2">
                                 {/* Auto-Remedy Toggle */}
-                                <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-[#18181B] border border-white/[0.08]">
-                                  <span className="text-[10px] font-bold text-[#A1A1AA]">Auto-Remedy:</span>
+                                <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white border border-[#E5E5E5] shadow-xs">
+                                  <span className="text-[10px] font-bold text-[#6B6B6B]">Auto-Remedy:</span>
                                   <button
                                     onClick={() => {
                                       const next = !autoRemediate;
@@ -686,7 +686,7 @@ export const ArchitectPage: React.FC = () => {
                                     }}
                                     className={cn(
                                       'w-7 h-4 rounded-full p-0.5 transition-colors cursor-pointer flex items-center',
-                                      autoRemediate ? 'bg-emerald-600' : 'bg-zinc-700'
+                                      autoRemediate ? 'bg-emerald-600' : 'bg-neutral-300'
                                     )}
                                     title="Toggle auto-remediation during synchronous deployment"
                                   >
@@ -697,7 +697,7 @@ export const ArchitectPage: React.FC = () => {
                                       )}
                                     />
                                   </button>
-                                  <span className={cn('text-[9px] font-mono font-bold', autoRemediate ? 'text-emerald-400' : 'text-zinc-500')}>
+                                  <span className={cn('text-[9px] font-mono font-bold', autoRemediate ? 'text-emerald-700' : 'text-neutral-500')}>
                                     {autoRemediate ? 'ON' : 'OFF'}
                                   </span>
                                 </div>
@@ -914,7 +914,7 @@ export const ArchitectPage: React.FC = () => {
                                     </button>
                                   </div>
 
-                                  <pre className="p-4 rounded-xl bg-[#080809] border border-white/[0.08] text-[11px] font-mono text-[#22D3EE] leading-relaxed overflow-x-auto select-all">
+                                  <pre className="p-4 rounded-xl bg-[#FAFAF9] border border-[#E5E5E5] text-[11px] font-mono text-[#0A0A0A] leading-relaxed overflow-x-auto select-all shadow-inner">
                                     <code>{decoded.yamlPipeline}</code>
                                   </pre>
                                 </div>
@@ -923,12 +923,12 @@ export const ArchitectPage: React.FC = () => {
                               {/* TAB 3: Rollout */}
                               {currentTab === "rollout" && (
                                 <div className="space-y-2.5">
-                                  <div className="p-3.5 rounded-lg bg-[#141416] border border-white/[0.08] text-xs text-[#EDEDED] space-y-1">
-                                    <span className="font-bold flex items-center gap-1.5 text-[#6366F1]">
+                                  <div className="p-3.5 rounded-lg bg-[#FAFAF9] border border-[#E5E5E5] text-xs text-[#0A0A0A] space-y-1">
+                                    <span className="font-bold flex items-center gap-1.5 text-indigo-700">
                                       <RotateCcw className="w-3.5 h-3.5" />
                                       <span>Kahn’s Topological Recovery Sequence</span>
                                     </span>
-                                    <p className="text-[11px] text-[#A1A1AA] font-medium leading-relaxed">
+                                    <p className="text-[11px] text-[#6B6B6B] font-medium leading-relaxed">
                                       Deterministic bottom-up execution. Databases restore and satisfy health
                                       readiness probes before application pods accept ingress traffic.
                                     </p>
@@ -938,14 +938,14 @@ export const ArchitectPage: React.FC = () => {
                                     (levelNodes, idx) => (
                                       <div
                                         key={idx}
-                                        className="p-3.5 rounded-lg bg-[#141416] border border-white/[0.08] flex items-center justify-between"
+                                        className="p-3.5 rounded-lg bg-white border border-[#E5E5E5] shadow-xs flex items-center justify-between"
                                       >
                                         <div className="flex items-center gap-3">
-                                          <div className="w-6 h-6 rounded-full bg-[#6366F1]/20 text-[#818CF8] border border-[#6366F1]/30 text-xs font-mono font-bold flex items-center justify-center shrink-0">
+                                          <div className="w-6 h-6 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200 text-xs font-mono font-bold flex items-center justify-center shrink-0">
                                             {idx + 1}
                                           </div>
                                           <div>
-                                            <div className="text-xs font-bold text-[#EDEDED]">
+                                            <div className="text-xs font-bold text-[#0A0A0A]">
                                               Stage {idx + 1}: Restore {levelNodes.join(", ")}
                                             </div>
                                             <div className="text-[10px] text-[#71717A] font-mono">
@@ -956,12 +956,12 @@ export const ArchitectPage: React.FC = () => {
 
                                         <div>
                                           {idx === 0 ? (
-                                            <span className="text-[10px] font-mono font-bold px-2.5 py-0.5 rounded-full bg-purple-950/80 text-purple-300 border border-purple-800 flex items-center gap-1">
-                                              <KeyRound className="w-3 h-3 text-purple-400" />
+                                            <span className="text-[10px] font-mono font-bold px-2.5 py-0.5 rounded-full bg-purple-50 text-purple-700 border border-purple-200 flex items-center gap-1">
+                                              <KeyRound className="w-3 h-3 text-purple-600" />
                                               <span>BridgeKey Gate</span>
                                             </span>
                                           ) : (
-                                            <span className="text-[10px] font-mono font-bold px-2.5 py-0.5 rounded-full bg-emerald-950/80 text-emerald-300 border border-emerald-800">
+                                            <span className="text-[10px] font-mono font-bold px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
                                               Autonomous
                                             </span>
                                           )}
@@ -983,9 +983,9 @@ export const ArchitectPage: React.FC = () => {
 
           {/* Live Thinking Stream Animation */}
           {isProcessing && (
-            <div className="p-4 rounded-xl bg-[#18181B] border border-white/[0.1] shadow-lg space-y-2.5 w-full max-w-[95%]">
-              <div className="flex items-center gap-2 text-xs text-[#6366F1] font-bold">
-                <div className="w-5 h-5 rounded-md overflow-hidden bg-[#141416] border border-white/[0.1] flex items-center justify-center p-0.5 shrink-0 animate-pulse">
+            <div className="p-4 rounded-xl bg-white border border-[#E5E5E5] shadow-md space-y-2.5 w-full max-w-[95%]">
+              <div className="flex items-center gap-2 text-xs text-[#0A0A0A] font-bold">
+                <div className="w-5 h-5 rounded-md overflow-hidden bg-neutral-100 border border-[#E5E5E5] flex items-center justify-center p-0.5 shrink-0 animate-pulse">
                   <img
                     src="/logo.png"
                     alt="Horizon Agent"
@@ -994,8 +994,8 @@ export const ArchitectPage: React.FC = () => {
                 </div>
                 <span>Sarvam AI Processing (sarvam-105b-conversations)...</span>
               </div>
-              <div className="text-[11px] font-mono text-[#A1A1AA] flex items-center gap-2 p-2.5 rounded-lg bg-[#0E0E10] border border-white/[0.08]">
-                <span className="w-2 h-2 rounded-full bg-[#6366F1] animate-ping shrink-0" />
+              <div className="text-[11px] font-mono text-[#525252] flex items-center gap-2 p-2.5 rounded-lg bg-[#FAFAF9] border border-[#E5E5E5]">
+                <span className="w-2 h-2 rounded-full bg-[#2DD4BF] animate-ping shrink-0" />
                 <span>{thinkingStep}</span>
               </div>
             </div>
@@ -1003,12 +1003,12 @@ export const ArchitectPage: React.FC = () => {
         </div>
 
         {/* ── BOTTOM SECTION: Suggestions Chips & Composer Bar ── */}
-        <div className="pt-3 border-t border-white/[0.08] space-y-3 shrink-0">
+        <div className="pt-3 border-t border-[#E5E5E5] space-y-3 shrink-0">
           {/* Quick Scenario / Question Chips */}
           {chatMessages.length === 0 && (
             <div className="space-y-2 py-1">
               <div className="flex items-center justify-center gap-1.5 text-[11px] font-mono text-[#71717A]">
-                <Zap className="w-3 h-3 text-[#6366F1]" />
+                <Zap className="w-3 h-3 text-[#2DD4BF]" />
                 <span>
                   {chatMode === "agent"
                     ? "Explore architecture scenarios:"
@@ -1024,9 +1024,9 @@ export const ArchitectPage: React.FC = () => {
                     key={sug.id}
                     onClick={() => handleSendMessage(sug.prompt)}
                     disabled={isProcessing}
-                    className="px-3.5 py-1.5 rounded-full bg-[#18181B] hover:bg-[#202024] border border-white/[0.08] hover:border-[#6366F1]/50 text-[10px] font-semibold text-[#EDEDED] shadow-xs hover:-translate-y-0.5 transition-all cursor-pointer flex items-center gap-1.5"
+                    className="px-3.5 py-1.5 rounded-full bg-white hover:bg-neutral-50 border border-[#E5E5E5] hover:border-[#2DD4BF] text-[10px] font-semibold text-[#0A0A0A] shadow-xs hover:-translate-y-0.5 transition-all cursor-pointer flex items-center gap-1.5"
                   >
-                    <sug.icon className="w-3 h-3 text-[#22D3EE]" />
+                    <sug.icon className="w-3 h-3 text-[#0047AB]" />
                     <span>{sug.title}</span>
                   </button>
                 ))}
@@ -1034,16 +1034,16 @@ export const ArchitectPage: React.FC = () => {
             </div>
           )}
 
-          {/* Rounded Input Composer Bar */}
+          {/* Rounded Input Composer Bar with Neumorphic Double-Shadow */}
           <form
             onSubmit={(e) => {
               e.preventDefault();
               handleSendMessage();
             }}
-            className="relative rounded-xl border border-white/[0.12] bg-[#18181B] shadow-inner p-2.5 sm:p-3 flex items-center gap-3"
+            className="relative rounded-2xl border border-[#E5E5E5] bg-white shadow-[0_4px_20px_rgba(0,0,0,0.03),inset_0_1px_0_rgba(255,255,255,1)] p-2.5 sm:p-3 flex items-center gap-3"
           >
             <div className="pl-1 shrink-0">
-              <div className="w-7 h-7 rounded-lg overflow-hidden bg-[#141416] border border-white/[0.1] flex items-center justify-center p-0.5">
+              <div className="w-7 h-7 rounded-lg overflow-hidden bg-neutral-100 border border-[#E5E5E5] flex items-center justify-center p-0.5">
                 <img
                   src="/logo.png"
                   alt="Horizon Logo"
@@ -1062,7 +1062,7 @@ export const ArchitectPage: React.FC = () => {
               }
               rows={1}
               disabled={isProcessing}
-              className="flex-1 py-1.5 px-2 text-xs sm:text-[13px] text-[#EDEDED] placeholder-[#71717A] focus:outline-none bg-transparent resize-none font-medium leading-relaxed"
+              className="flex-1 py-1.5 px-2 text-xs sm:text-[13px] text-[#0A0A0A] placeholder-[#A3A3A3] focus:outline-none bg-transparent resize-none font-medium leading-relaxed"
               onKeyDown={(e) => {
                 if (e.key === "Enter" && !e.shiftKey) {
                   e.preventDefault();

@@ -1166,10 +1166,10 @@ spec:
             {/* Reset Button */}
             <button
               onClick={resetToNominal}
-              className="px-3 py-2 rounded-xl text-xs font-bold text-[#A0A0AB] bg-[#101012] hover:bg-white/[0.06] border border-white/[0.08] transition-all cursor-pointer flex items-center gap-1.5"
+              className="px-3.5 py-2 rounded-xl text-xs font-semibold text-[#0A0A0A] bg-white hover:bg-neutral-50 border border-[#E5E5E5] shadow-xs transition-all cursor-pointer flex items-center gap-1.5"
               title="Reset all probes to nominal baseline"
             >
-              <RotateCcw className="w-3.5 h-3.5" />
+              <RotateCcw className="w-3.5 h-3.5 text-[#6B6B6B]" />
               <span>Reset</span>
             </button>
           </div>
@@ -1347,15 +1347,15 @@ spec:
           </div>
 
           {/* Actual Real AI Output Text */}
-          <div className="p-4 rounded-[12px] bg-[#141416] border border-white/[0.08] shadow-xs space-y-2">
-            <div className="flex items-center justify-between text-xs text-[#A0A0AB] font-bold">
+          <div className="p-4 rounded-[14px] bg-white border border-[#E5E5E5] shadow-[4px_4px_16px_rgba(0,0,0,0.025),inset_0_1px_0_rgba(255,255,255,1)] space-y-2">
+            <div className="flex items-center justify-between text-xs text-[#6B6B6B] font-bold">
               <span>REAL AI REASONING & REMEDIATION DIRECTIVE:</span>
-              <span className="font-mono text-[11px] text-[#6366F1]">Playbook: {aiDiagnosis.playbook}</span>
+              <span className="font-mono text-[11px] text-[#0047AB]">Playbook: {aiDiagnosis.playbook}</span>
             </div>
-            <p className="text-xs sm:text-sm text-[#ECECF0] font-medium leading-relaxed bg-[#101012] p-3 rounded-xl border border-[#E8DAC8]">
+            <p className="text-xs sm:text-sm text-[#0A0A0A] font-medium leading-relaxed bg-[#F5F5F4] p-3 rounded-xl border border-[#E5E5E5] shadow-inner">
               "{aiDiagnosis.rawOutput}"
             </p>
-            <div className="text-xs text-[#A0A0AB] pt-1">
+            <div className="text-xs text-[#6B6B6B] pt-1">
               <strong>Isolated Root Cause:</strong> <span className="text-rose-700 font-bold">{aiDiagnosis.rootCause}</span>
             </div>
           </div>
@@ -1367,21 +1367,21 @@ spec:
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="p-6 rounded-[14px] bg-[#141416] border-2 border-emerald-600/40 shadow-lg space-y-4"
+          className="p-6 rounded-[16px] bg-white border-2 border-emerald-500/30 shadow-[6px_6px_24px_rgba(0,0,0,0.03),inset_0_1px_0_rgba(255,255,255,1)] space-y-4"
         >
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/[0.08] pb-3">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#E5E5E5] pb-3">
             <div className="flex items-center gap-2.5">
-              <div className="p-2 rounded-xl bg-emerald-100 text-emerald-800">
+              <div className="p-2 rounded-xl bg-emerald-50 text-emerald-800 border border-emerald-200">
                 <FileText className="w-5 h-5 text-emerald-700" />
               </div>
               <div>
-                <h3 className="text-base font-black text-[#ECECF0] flex items-center gap-2">
+                <h3 className="text-base font-bold text-[#0A0A0A] flex items-center gap-2">
                   <span>Autonomous Incident Recovery Report (Post-Mortem)</span>
-                  <span className="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-mono font-bold">
+                  <span className="px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 text-[10px] font-mono font-bold">
                     RESOLVED
                   </span>
                 </h3>
-                <p className="text-xs text-[#A0A0AB]">
+                <p className="text-xs text-[#6B6B6B]">
                   Incident <strong>#{postMortemReport.incidentId}</strong> resolved at {postMortemReport.resolvedAt} with 0 unhandled alerts.
                 </p>
               </div>
@@ -1389,44 +1389,44 @@ spec:
 
             <button
               onClick={copyPostMortemMarkdown}
-              className="px-3.5 py-2 rounded-xl text-xs font-bold bg-[#101012] hover:bg-white/[0.06] border border-white/[0.08] transition-all cursor-pointer flex items-center gap-1.5 self-start sm:self-center"
+              className="px-3.5 py-2 rounded-xl text-xs font-semibold bg-white hover:bg-neutral-50 border border-[#E5E5E5] shadow-xs text-[#0A0A0A] transition-all cursor-pointer flex items-center gap-1.5 self-start sm:self-center"
             >
-              {copiedReport ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5 text-[#6366F1]" />}
+              {copiedReport ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5 text-[#0047AB]" />}
               <span>{copiedReport ? 'Report Copied!' : 'Copy Markdown Report'}</span>
             </button>
           </div>
 
           {/* Key Metrics Grid */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
-            <div className="p-3 rounded-xl bg-[#101012] border border-[#E8DAC8]">
-              <div className="text-[10px] font-mono text-[#63636E] uppercase">Time to Detect (MTTD)</div>
-              <div className="text-base font-black text-[#ECECF0] mt-0.5">{postMortemReport.mttdSeconds}s</div>
-              <div className="text-[10px] text-emerald-700 font-bold">3/3 probe window</div>
+            <div className="p-3 rounded-xl bg-[#FAFAF9] border border-[#E5E5E5] shadow-xs">
+              <div className="text-[10px] font-mono text-[#737373] uppercase">Time to Detect (MTTD)</div>
+              <div className="text-base font-bold text-[#0A0A0A] mt-0.5">{postMortemReport.mttdSeconds}s</div>
+              <div className="text-[10px] text-emerald-700 font-semibold">3/3 probe window</div>
             </div>
-            <div className="p-3 rounded-xl bg-[#101012] border border-[#E8DAC8]">
-              <div className="text-[10px] font-mono text-[#63636E] uppercase">Time to Recover (MTTR)</div>
-              <div className="text-base font-black text-[#6366F1] mt-0.5">{postMortemReport.mttrSeconds}s</div>
-              <div className="text-[10px] text-[#6366F1] font-bold">SLA: &lt;60s met</div>
+            <div className="p-3 rounded-xl bg-[#FAFAF9] border border-[#E5E5E5] shadow-xs">
+              <div className="text-[10px] font-mono text-[#737373] uppercase">Time to Recover (MTTR)</div>
+              <div className="text-base font-bold text-[#0047AB] mt-0.5">{postMortemReport.mttrSeconds}s</div>
+              <div className="text-[10px] text-[#0047AB] font-semibold">SLA: &lt;60s met</div>
             </div>
-            <div className="p-3 rounded-xl bg-[#101012] border border-[#E8DAC8]">
-              <div className="text-[10px] font-mono text-[#63636E] uppercase">Restored Nodes</div>
-              <div className="text-base font-black text-[#ECECF0] mt-0.5">{postMortemReport.restoredCount} Services</div>
-              <div className="text-[10px] text-stone-600">Bottom-up DAG tiers</div>
+            <div className="p-3 rounded-xl bg-[#FAFAF9] border border-[#E5E5E5] shadow-xs">
+              <div className="text-[10px] font-mono text-[#737373] uppercase">Restored Nodes</div>
+              <div className="text-base font-bold text-[#0A0A0A] mt-0.5">{postMortemReport.restoredCount} Services</div>
+              <div className="text-[10px] text-neutral-600">Bottom-up DAG tiers</div>
             </div>
-            <div className="p-3 rounded-xl bg-[#101012] border border-[#E8DAC8]">
-              <div className="text-[10px] font-mono text-[#63636E] uppercase">AI SRE Engine</div>
-              <div className="text-sm font-bold text-[#ECECF0] mt-0.5 truncate">{postMortemReport.provenance}</div>
-              <div className="text-[10px] text-emerald-700 font-bold">Kahn sequenced</div>
+            <div className="p-3 rounded-xl bg-[#FAFAF9] border border-[#E5E5E5] shadow-xs">
+              <div className="text-[10px] font-mono text-[#737373] uppercase">AI SRE Engine</div>
+              <div className="text-sm font-bold text-[#0A0A0A] mt-0.5 truncate">{postMortemReport.provenance}</div>
+              <div className="text-[10px] text-emerald-700 font-semibold">Kahn sequenced</div>
             </div>
           </div>
 
-          <div className="p-3.5 rounded-xl bg-[#101012] border border-[#E8DAC8] text-xs space-y-1.5 font-mono">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between text-[#A0A0AB] gap-1">
+          <div className="p-3.5 rounded-xl bg-[#FAFAF9] border border-[#E5E5E5] text-xs space-y-1.5 font-mono shadow-inner">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between text-[#525252] gap-1">
               <span><strong>Root Cause:</strong> {postMortemReport.rootCause}</span>
               <span><strong>Playbook:</strong> {postMortemReport.playbook}</span>
             </div>
-            <div className="text-[11px] text-[#63636E] break-all">
-              <strong>Merkle Audit Root Hash:</strong> <span className="text-emerald-800 font-bold">{postMortemReport.merkleRoot}</span>
+            <div className="text-[11px] text-[#737373] break-all">
+              <strong>Merkle Audit Root Hash:</strong> <span className="text-emerald-700 font-bold">{postMortemReport.merkleRoot}</span>
             </div>
           </div>
         </motion.div>

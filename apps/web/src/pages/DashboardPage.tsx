@@ -173,7 +173,7 @@ export const DashboardPage: React.FC = () => {
         </div>
 
         {/* Faint Stipple Globe Corner Motif */}
-        <div className="absolute right-0 top-0 pointer-events-none opacity-20 hidden lg:block -mr-12 -mt-10">
+        <div className="absolute right-0 -top-6 pointer-events-none opacity-35 hidden lg:block">
           <Globe size="180px" crop="corner" />
         </div>
       </motion.div>

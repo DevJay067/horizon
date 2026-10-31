@@ -4,7 +4,7 @@ import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion'
 import Lenis from 'lenis';
 import { KindredNavbar } from '../components/layout/KindredNavbar';
 import { KindredFooter } from '../components/layout/KindredFooter';
-import { DotMatrixGlobe } from '../components/3d/DotMatrixGlobe';
+import { AtomicGlobe } from '../components/3d/AtomicGlobe';
 import { BrandLogos } from '../components/common/BrandLogos';
 import { CountUp } from '../components/common/CountUp';
 import {
@@ -183,7 +183,7 @@ export const LandingPage: React.FC = () => {
   useEffect(() => () => clearSimTimers(), []);
 
   return (
-    <div className="relative min-h-screen bg-[#FAFAF9] text-[#0A0A0A] font-sans selection:bg-[#0A0A0A] selection:text-white overflow-x-hidden">
+    <div className="relative min-h-screen bg-[#FAFAF9] text-[#0A0A0A] font-sans selection:bg-[#0A0A0A] selection:text-white [overflow-x:clip]">
       
       {/* 2px ink scroll-progress bar at the very top of the page */}
       <motion.div
@@ -196,17 +196,17 @@ export const LandingPage: React.FC = () => {
           ═════════════════════════════════════════════════════════════ */}
       <section
         ref={heroRef}
-        className="relative w-full min-h-[760px] lg:h-[920px] xl:h-[980px] flex flex-col justify-between overflow-hidden bg-[#FAFAF9]"
+        className="relative w-full min-h-screen flex flex-col justify-between overflow-hidden bg-[#FAFAF9]"
       >
         {/* Navbar with auto-hide on scroll down and return on scroll up */}
         <KindredNavbar />
 
         {/* Center Editorial Copy Block with Word-by-Word Reveal */}
-        <div className="relative z-20 max-w-4xl mx-auto px-6 sm:px-8 pt-8 sm:pt-10 pb-4 text-center space-y-5">
+        <div className="relative z-20 max-w-4xl mx-auto px-6 sm:px-8 pt-2 sm:pt-4 text-center space-y-3 sm:space-y-4">
           
           {/* Main Large Editorial Serif Headline with word-by-word reveal */}
-          <h1 className="tracking-tight leading-[1.01] [text-wrap:balance]">
-            <span className="block font-['Instrument_Serif',serif] font-normal text-[#A3A3A3] text-5xl sm:text-6xl md:text-7xl lg:text-[5.75rem]">
+          <h1 className="tracking-tight leading-[1.12] [text-wrap:balance]">
+            <span className="block font-['Instrument_Serif',serif] font-normal text-[#A3A3A3] text-4xl sm:text-5xl md:text-6xl lg:text-[4.85rem]">
               {LINE_1_WORDS.map((word, i) => (
                 <motion.span
                   key={word}
@@ -223,7 +223,7 @@ export const LandingPage: React.FC = () => {
                 </motion.span>
               ))}
             </span>
-            <span className="block font-['Instrument_Serif',serif] italic font-normal text-[#0A0A0A] text-5xl sm:text-6xl md:text-7xl lg:text-[5.75rem]">
+            <span className="block font-['Instrument_Serif',serif] italic font-normal text-[#0A0A0A] text-4xl sm:text-5xl md:text-6xl lg:text-[4.85rem]">
               {LINE_2_WORDS.map((word, i) => (
                 <motion.span
                   key={word}
@@ -247,7 +247,7 @@ export const LandingPage: React.FC = () => {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.28, ease: [0.16, 1, 0.3, 1] }}
-            className="max-w-2xl mx-auto text-xs sm:text-sm md:text-base text-[#6B6B6B] leading-relaxed font-normal"
+            className="max-w-2xl mx-auto text-[13px] sm:text-sm text-[#6B6B6B] leading-[1.65] font-normal"
           >
             Topological dependency resolution, Sarvam-105B AI root-cause reasoning, and BridgeKey EIP-712 human commander gates — orchestrating deterministic self-healing with an immutable on-chain audit vault.
           </motion.p>
@@ -257,11 +257,11 @@ export const LandingPage: React.FC = () => {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.36, ease: [0.16, 1, 0.3, 1] }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-3.5 pt-2"
+            className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-1"
           >
             <Link
               to="/dashboard"
-              className="px-8 py-3.5 rounded-full bg-[#0A0A0A] text-white text-xs font-semibold hover:bg-neutral-800 active:scale-95 transition-all shadow-[0_1px_2px_rgba(0,0,0,0.04)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)] flex items-center gap-2 group cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2DD4BF] focus-visible:ring-offset-2"
+              className="px-8 py-3 rounded-full bg-[#0A0A0A] text-white text-xs font-semibold hover:bg-neutral-800 active:scale-95 transition-all shadow-[0_1px_2px_rgba(0,0,0,0.04)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)] flex items-center gap-2 group cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2DD4BF] focus-visible:ring-offset-2"
             >
               <span>Launch Command Center</span>
               <span className="transition-transform group-hover:translate-x-1">&rarr;</span>
@@ -269,7 +269,7 @@ export const LandingPage: React.FC = () => {
 
             <a
               href="#showcase"
-              className="px-7 py-3.5 rounded-full bg-white border border-[#E5E5E5] text-[#0A0A0A] text-xs font-semibold hover:bg-neutral-50 hover:border-[#D4D4D4] active:scale-95 transition-all shadow-sm flex items-center gap-2 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2DD4BF] focus-visible:ring-offset-2"
+              className="px-7 py-3 rounded-full bg-white border border-[#E5E5E5] text-[#0A0A0A] text-xs font-semibold hover:bg-neutral-50 hover:border-[#D4D4D4] active:scale-95 transition-all shadow-sm flex items-center gap-2 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2DD4BF] focus-visible:ring-offset-2"
             >
               <svg className="w-4 h-4 stroke-[#2DD4BF] fill-none" viewBox="0 0 24 24" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <circle cx="12" cy="5" r="2.5" />
@@ -284,13 +284,18 @@ export const LandingPage: React.FC = () => {
 
         </div>
 
-        {/* Centerpiece: Halftone Fibonacci-Sphere Earth Globe Canvas */}
-        <div className="relative flex-1 w-full min-h-[380px] -mt-2 sm:-mt-6 z-10 pointer-events-none">
-          <DotMatrixGlobe theme="light" scrollProgress={heroScrollVal} className="w-full h-full" />
+        {/* Centerpiece: Three.js AtomicGlobe (Reversed Paper Theme: #0A0A0A stippled dots) */}
+        <div className="relative w-full h-[380px] sm:h-[440px] lg:h-[520px] -mt-6 sm:-mt-8 z-10 pointer-events-none overflow-hidden flex items-center justify-center">
+          {/* Soft ethereal blue/cyan aura right beneath CTAs at the apex of the globe */}
+          <div
+            aria-hidden="true"
+            className="absolute top-4 sm:top-6 left-1/2 -translate-x-1/2 w-[360px] sm:w-[440px] h-[110px] rounded-full bg-gradient-to-t from-sky-400/20 via-teal-300/15 to-transparent blur-3xl pointer-events-none"
+          />
+          <AtomicGlobe scrollProgress={heroScrollVal} className="w-full h-full pointer-events-auto" />
         </div>
 
         {/* Bottom Logo Strip */}
-        <div className="relative z-20 pb-8 pt-2 bg-gradient-to-t from-[#FAFAF9] via-[#FAFAF9]/90 to-transparent">
+        <div className="relative z-20 pb-8 pt-4 bg-gradient-to-t from-[#FAFAF9] via-[#FAFAF9]/95 to-transparent">
           <BrandLogos />
         </div>
 
@@ -298,89 +303,119 @@ export const LandingPage: React.FC = () => {
 
       {/* ═════════════════════════════════════════════════════════════
           ACT II: PINNED SCROLLYTELLING TOPOLOGY ORCHESTRATION CARD
-          Pinned for ~300vh with automated tab progression
+          Pinned for ~320vh with rock-solid lock during scroll down & up
           ═════════════════════════════════════════════════════════════ */}
       <section
         id="showcase"
         ref={scrollyContainerRef}
-        className="relative h-[300vh] bg-[#FAFAF9] border-t border-[#E5E5E5]"
+        className="relative h-[320vh] bg-[#FAFAF9] border-t border-[#E5E5E5]"
       >
-        {/* Sticky viewport frame pinned in center of viewport */}
-        <div className="sticky top-16 lg:top-20 min-h-[calc(100vh-4rem)] flex flex-col justify-center py-6 sm:py-8">
+        {/* Sticky viewport frame: 2-Column Bento Layout */}
+        <div className="sticky top-0 h-screen w-full flex items-center justify-center px-4 sm:px-6 lg:px-8 py-3 overflow-hidden z-20">
           
-          <div className="max-w-[1120px] w-full mx-auto px-6 overflow-hidden space-y-6">
+          <div className="max-w-[1240px] w-full mx-auto grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-6 items-center">
             
-            {/* Centered Balanced Headline with Eyebrow */}
-            <div className="text-center max-w-[820px] mx-auto space-y-2.5 [text-wrap:balance]">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white border border-[#E5E5E5] text-[#0A0A0A] text-[11px] font-sans font-medium uppercase tracking-[0.12em] shadow-xs">
-                <span className="w-2 h-2 rounded-full bg-[#2DD4BF] animate-pulse" />
+            {/* ─── LEFT COLUMN (col-span-5): Headline, Subtext, 2x2 Bento Metrics & Chaos Controls ─── */}
+            <div className="lg:col-span-5 space-y-3.5 pr-0 lg:pr-1">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white border border-[#E5E5E5] text-[#0A0A0A] text-[10px] font-sans font-medium uppercase tracking-[0.1em] shadow-xs">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#2DD4BF] animate-pulse" />
                 <span>Live Autonomous Orchestration</span>
               </div>
               
-              <h2 className="text-3xl sm:text-5xl font-['Instrument_Serif',serif] tracking-tight text-[#0A0A0A] leading-tight">
-                <span className="text-[#A3A3A3] font-normal">Topological resilience, </span>
-                <span className="italic font-normal text-[#0A0A0A]">rendered in real time.</span>
+              <h2 className="text-3xl sm:text-4xl lg:text-[2.75rem] font-['Instrument_Serif',serif] tracking-tight leading-[1.04] [text-wrap:balance]">
+                <span className="text-[#A3A3A3] font-normal block">Topological resilience,</span>
+                <span className="italic font-normal text-[#0A0A0A] block">rendered in real time.</span>
               </h2>
               
-              <p className="text-xs sm:text-sm text-[#6B6B6B] leading-relaxed max-w-xl mx-auto">
-                Scroll to traverse failure graphs bottom-up. Watch Horizon isolate degraded tiers with Kahn DAG ordering while unaffected pipelines process at wire speed.
+              <p className="text-[13px] sm:text-sm text-[#525252] leading-relaxed">
+                Autonomous Kahn DAG orchestration. Degraded tiers isolate in 80ms while healthy pipelines run uninterrupted at wire speed.
               </p>
+
+              {/* 2x2 Bento Metrics Grid */}
+              <div className="grid grid-cols-2 gap-2 pt-0.5">
+                <div className="p-2.5 rounded-xl bg-white border border-[#E5E5E5] shadow-xs space-y-1">
+                  <div className="text-[9.5px] uppercase font-mono tracking-wider text-[#737373]">p99 Recovery</div>
+                  <div className="text-base font-bold font-mono text-[#0A0A0A] flex items-center justify-between">
+                    <CountUp end={24.8} decimals={1} suffix="s" />
+                    <svg className="w-10 h-4 stroke-[#0A0A0A] fill-none" viewBox="0 0 64 20">
+                      <path d="M0,16 Q16,14 28,18 T44,8 T64,6" strokeWidth="1.5" />
+                    </svg>
+                  </div>
+                </div>
+
+                <div className="p-2.5 rounded-xl bg-white border border-[#E5E5E5] shadow-xs space-y-1">
+                  <div className="text-[9.5px] uppercase font-mono tracking-wider text-[#737373]">Healthy Nodes</div>
+                  <div className="text-base font-bold font-mono text-[#0A0A0A] flex items-center justify-between">
+                    <span><CountUp end={14} /> / 14</span>
+                    <svg className="w-10 h-4 stroke-[#0A0A0A] fill-none" viewBox="0 0 64 20">
+                      <path d="M0,10 L16,10 L24,4 L32,16 L40,10 L64,10" strokeWidth="1.5" />
+                    </svg>
+                  </div>
+                </div>
+
+                <div className="p-2.5 rounded-xl bg-white border border-[#E5E5E5] shadow-xs space-y-1">
+                  <div className="text-[9.5px] uppercase font-mono tracking-wider text-[#737373]">Audit Roots</div>
+                  <div className="text-base font-bold font-mono text-[#0A0A0A] flex items-center justify-between">
+                    <CountUp end={4819203} prefix="#" />
+                    <svg className="w-10 h-4 stroke-[#0A0A0A] fill-none" viewBox="0 0 64 20">
+                      <path d="M0,16 L20,16 L20,10 L42,10 L42,4 L64,4" strokeWidth="1.5" />
+                    </svg>
+                  </div>
+                </div>
+
+                <div className="p-2.5 rounded-xl bg-white border border-[#E5E5E5] shadow-xs space-y-1">
+                  <div className="text-[9.5px] uppercase font-mono tracking-wider text-[#737373]">Acyclic Kahn</div>
+                  <div className="text-base font-bold font-mono text-[#0A0A0A] flex items-center justify-between">
+                    <span>100% Kahn</span>
+                    <svg className="w-10 h-4 stroke-[#0A0A0A] fill-none" viewBox="0 0 64 20">
+                      <path d="M0,12 L64,12" strokeWidth="1.5" strokeDasharray="3 3" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+
+              {/* Status and Chaos Quick Action Row */}
+              <div className="pt-1 flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={triggerSplitBrainSimulation}
+                  className={cn(
+                    'flex-1 py-2.5 px-3.5 rounded-xl text-xs font-semibold flex items-center justify-center gap-2 transition-all cursor-pointer shadow-xs active:scale-95',
+                    simPhase === 'nominal' || simPhase === 'recovered'
+                      ? 'bg-[#0A0A0A] text-white hover:bg-neutral-800'
+                      : 'bg-neutral-200 text-neutral-500 cursor-not-allowed'
+                  )}
+                >
+                  <Zap className="w-3.5 h-3.5 text-[#2DD4BF]" />
+                  <span>{simPhase === 'degraded' ? 'Incident Active...' : 'Simulate Split-Brain Chaos'}</span>
+                </button>
+
+                {simPhase !== 'nominal' && (
+                  <button
+                    type="button"
+                    onClick={resetSimulation}
+                    className="p-2.5 rounded-xl bg-white border border-[#E5E5E5] text-[#0A0A0A] hover:bg-neutral-50 font-semibold flex items-center gap-1.5 transition-colors cursor-pointer shadow-xs shrink-0"
+                    title="Reset Simulation"
+                  >
+                    <RefreshCw className="w-3.5 h-3.5 text-[#6B6B6B]" />
+                  </button>
+                )}
+              </div>
+
             </div>
 
-            {/* Live Metrics Strip with Count-Up and Ink Sparklines */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 p-3.5 rounded-2xl bg-white border border-[#E5E5E5] shadow-[0_1px_2px_rgba(0,0,0,0.02)]">
-              <div className="space-y-1 px-3 py-1">
-                <div className="text-[10px] uppercase font-mono tracking-wider text-[#A3A3A3]">p99 Recovery Latency</div>
-                <div className="text-base font-semibold font-mono text-[#0A0A0A] flex items-center justify-between">
-                  <CountUp end={24.8} decimals={1} suffix="s" />
-                  <svg className="w-16 h-5 stroke-[#0A0A0A] fill-none" viewBox="0 0 64 20">
-                    <path d="M0,16 Q16,14 28,18 T44,8 T64,6" strokeWidth="1.5" />
-                  </svg>
-                </div>
-              </div>
-
-              <div className="space-y-1 px-3 py-1 border-l border-[#E5E5E5]">
-                <div className="text-[10px] uppercase font-mono tracking-wider text-[#A3A3A3]">Healthy Nodes</div>
-                <div className="text-base font-semibold font-mono text-[#0A0A0A] flex items-center justify-between">
-                  <span><CountUp end={14} /> / 14</span>
-                  <svg className="w-16 h-5 stroke-[#0A0A0A] fill-none" viewBox="0 0 64 20">
-                    <path d="M0,10 L16,10 L24,4 L32,16 L40,10 L64,10" strokeWidth="1.5" />
-                  </svg>
-                </div>
-              </div>
-
-              <div className="space-y-1 px-3 py-1 border-l border-[#E5E5E5]">
-                <div className="text-[10px] uppercase font-mono tracking-wider text-[#A3A3A3]">Audit Roots Anchored</div>
-                <div className="text-base font-semibold font-mono text-[#0A0A0A] flex items-center justify-between">
-                  <CountUp end={4819203} prefix="#" />
-                  <svg className="w-16 h-5 stroke-[#0A0A0A] fill-none" viewBox="0 0 64 20">
-                    <path d="M0,16 L20,16 L20,10 L42,10 L42,4 L64,4" strokeWidth="1.5" />
-                  </svg>
-                </div>
-              </div>
-
-              <div className="space-y-1 px-3 py-1 border-l border-[#E5E5E5]">
-                <div className="text-[10px] uppercase font-mono tracking-wider text-[#A3A3A3]">Acyclic Guarantee</div>
-                <div className="text-base font-semibold font-mono text-[#0A0A0A] flex items-center justify-between">
-                  <span>100% Kahn</span>
-                  <svg className="w-16 h-5 stroke-[#0A0A0A] fill-none" viewBox="0 0 64 20">
-                    <path d="M0,12 L64,12" strokeWidth="1.5" strokeDasharray="3 3" />
-                  </svg>
-                </div>
-              </div>
-            </div>
-
-            {/* The Main Showcase Card with Faint Dotted Background Texture */}
-            <div className="relative rounded-[20px] bg-white border border-[#E5E5E5] shadow-[0_1px_2px_rgba(0,0,0,0.04),0_8px_24px_rgba(0,0,0,0.04)] overflow-hidden transition-all duration-300">
+            {/* ─── RIGHT COLUMN (col-span-7): The Interactive Showcase Card ─── */}
+            <div className="lg:col-span-7 w-full">
+              <div className="relative rounded-[20px] bg-white border border-[#E5E5E5] shadow-[8px_8px_28px_rgba(0,0,0,0.035),-6px_-6px_24px_rgba(255,255,255,0.95),inset_0_1px_0_rgba(255,255,255,1)] overflow-hidden transition-all duration-300">
               
               {/* Faint Dotted Texture (4% opacity, behind card only) */}
               <div
                 aria-hidden="true"
-                className="absolute inset-0 pointer-events-none rounded-[20px] opacity-[0.04] bg-[radial-gradient(#0A0A0A_1px,transparent_1px)] [background-size:16px_16px]"
+                className="absolute inset-0 pointer-events-none rounded-[24px] opacity-[0.04] bg-[radial-gradient(#0A0A0A_1px,transparent_1px)] [background-size:16px_16px]"
               />
 
               {/* Window Controls & Pill Segmented Control Tab Bar */}
-              <div className="relative z-10 px-6 py-4 border-b border-[#E5E5E5] bg-[#FAFAF9]/80 backdrop-blur-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
+              <div className="relative z-10 px-4 py-2.5 border-b border-[#E5E5E5] bg-[#FAFAF9]/80 backdrop-blur-sm flex flex-col md:flex-row md:items-center justify-between gap-3">
                 
                 {/* Traffic Dot Controls & Route Label */}
                 <div className="flex items-center gap-2">
@@ -392,8 +427,8 @@ export const LandingPage: React.FC = () => {
                   </span>
                 </div>
 
-                {/* Pill Segmented Control with Sliding White Indicator */}
-                <div className="relative p-1 bg-[#F5F5F4] rounded-full border border-[#E5E5E5] flex items-center gap-1 self-start md:self-auto overflow-x-auto max-w-full">
+                {/* Neumorphic Recessed Debossed Track with Tactile Active Pill */}
+                <div className="relative p-1 bg-[#F5F5F4] rounded-full border border-[#E5E5E5] shadow-[inset_1px_1px_3px_rgba(0,0,0,0.07),inset_-1px_-1px_3px_rgba(255,255,255,0.85)] flex items-center gap-1 self-start md:self-auto overflow-x-auto max-w-full">
                   {TAB_KEYS.map((tab) => {
                     const isCurrent = activeTab === tab;
                     return (
@@ -409,7 +444,7 @@ export const LandingPage: React.FC = () => {
                         {isCurrent && (
                           <motion.div
                             layoutId="topology-active-tab-indicator"
-                            className="absolute inset-0 bg-white rounded-full border border-[#E5E5E5] shadow-[0_1px_3px_rgba(0,0,0,0.06)]"
+                            className="absolute inset-0 bg-white rounded-full border border-[#E5E5E5] shadow-[2px_2px_6px_rgba(0,0,0,0.06),-1px_-1px_3px_rgba(255,255,255,0.95),0_1px_2px_rgba(0,0,0,0.04)]"
                             transition={{ type: 'spring', stiffness: 450, damping: 35 }}
                           />
                         )}
@@ -435,69 +470,71 @@ export const LandingPage: React.FC = () => {
               </div>
 
               {/* Showcase Stage Content */}
-              <div className="relative z-10 p-6 sm:p-7 space-y-6">
+              <div className="relative z-10 p-2.5 sm:p-3 space-y-2">
                 
-                {/* Simulation Action Bar */}
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-[#E5E5E5]">
-                  <div className="flex items-center gap-3">
-                    <span
-                      className={cn(
-                        'inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-mono font-bold uppercase transition-colors',
-                        simPhase === 'nominal' && 'bg-emerald-50 text-emerald-800 border border-emerald-200',
-                        simPhase === 'degraded' && 'bg-red-50 text-red-700 border border-red-200',
-                        simPhase === 'isolated' && 'bg-amber-50 text-amber-800 border border-amber-200',
-                        simPhase === 'recovered' && 'bg-teal-50 text-teal-800 border border-teal-200'
-                      )}
-                    >
+                {/* Simulation Action Bar (only when not on DAG tab, since DAG has integrated controls) */}
+                {activeTab !== 'dag' && (
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-[#E5E5E5]">
+                    <div className="flex items-center gap-3">
                       <span
                         className={cn(
-                          'w-2 h-2 rounded-full',
-                          simPhase === 'nominal' && 'bg-emerald-500',
-                          simPhase === 'degraded' && 'bg-red-500 animate-ping',
-                          simPhase === 'isolated' && 'bg-amber-500',
-                          simPhase === 'recovered' && 'bg-[#2DD4BF]'
+                          'inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-mono font-bold uppercase transition-colors',
+                          simPhase === 'nominal' && 'bg-emerald-50 text-emerald-800 border border-emerald-200',
+                          simPhase === 'degraded' && 'bg-red-50 text-red-700 border border-red-200',
+                          simPhase === 'isolated' && 'bg-amber-50 text-amber-800 border border-amber-200',
+                          simPhase === 'recovered' && 'bg-teal-50 text-teal-800 border border-teal-200'
                         )}
-                      />
-                      <span>
-                        {simPhase === 'nominal' && 'STATE: NOMINAL // 0.4ms'}
-                        {simPhase === 'degraded' && 'STATE: DEGRADED // SPLIT-BRAIN (840ms)'}
-                        {simPhase === 'isolated' && 'STATE: ISOLATED // TRAFFIC RE-ROUTED'}
-                        {simPhase === 'recovered' && 'STATE: RECOVERED // ATTESTED ON-CHAIN'}
+                      >
+                        <span
+                          className={cn(
+                            'w-2 h-2 rounded-full',
+                            simPhase === 'nominal' && 'bg-emerald-500',
+                            simPhase === 'degraded' && 'bg-red-500 animate-ping',
+                            simPhase === 'isolated' && 'bg-amber-500',
+                            simPhase === 'recovered' && 'bg-[#2DD4BF]'
+                          )}
+                        />
+                        <span>
+                          {simPhase === 'nominal' && 'STATE: NOMINAL // 0.4ms'}
+                          {simPhase === 'degraded' && 'STATE: DEGRADED // SPLIT-BRAIN (840ms)'}
+                          {simPhase === 'isolated' && 'STATE: ISOLATED // TRAFFIC RE-ROUTED'}
+                          {simPhase === 'recovered' && 'STATE: RECOVERED // ATTESTED ON-CHAIN'}
+                        </span>
                       </span>
-                    </span>
 
-                    <span className="hidden sm:inline font-mono text-[11px] text-[#A3A3A3]">
-                      Kahn Traversal: O(V + E)
-                    </span>
-                  </div>
+                      <span className="hidden sm:inline font-mono text-[11px] text-[#A3A3A3]">
+                        Kahn Traversal: O(V + E)
+                      </span>
+                    </div>
 
-                  <div className="flex items-center gap-2 self-start sm:self-auto">
-                    {simPhase !== 'nominal' && (
+                    <div className="flex items-center gap-2 self-start sm:self-auto">
+                      {simPhase !== 'nominal' && (
+                        <button
+                          type="button"
+                          onClick={resetSimulation}
+                          className="px-3.5 py-1.5 rounded-full bg-white border border-[#E5E5E5] text-[#0A0A0A] hover:bg-neutral-50 text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2DD4BF]"
+                        >
+                          <RefreshCw className="w-3 h-3 text-[#6B6B6B]" />
+                          <span>Reset</span>
+                        </button>
+                      )}
+
                       <button
                         type="button"
-                        onClick={resetSimulation}
-                        className="px-3.5 py-1.5 rounded-full bg-white border border-[#E5E5E5] text-[#0A0A0A] hover:bg-neutral-50 text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2DD4BF]"
+                        onClick={triggerSplitBrainSimulation}
+                        className={cn(
+                          'px-4 py-2 rounded-full text-xs font-semibold flex items-center gap-2 transition-all cursor-pointer shadow-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2DD4BF] active:scale-95',
+                          simPhase === 'nominal' || simPhase === 'recovered'
+                            ? 'bg-[#0A0A0A] text-white hover:bg-neutral-800'
+                            : 'bg-neutral-200 text-neutral-500 cursor-not-allowed'
+                        )}
                       >
-                        <RefreshCw className="w-3 h-3 text-[#6B6B6B]" />
-                        <span>Reset</span>
+                        <Zap className="w-3.5 h-3.5 text-[#2DD4BF]" />
+                        <span>Simulate Split-Brain Spike</span>
                       </button>
-                    )}
-
-                    <button
-                      type="button"
-                      onClick={triggerSplitBrainSimulation}
-                      className={cn(
-                        'px-4 py-2 rounded-full text-xs font-semibold flex items-center gap-2 transition-all cursor-pointer shadow-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2DD4BF] active:scale-95',
-                        simPhase === 'nominal' || simPhase === 'recovered'
-                          ? 'bg-[#0A0A0A] text-white hover:bg-neutral-800'
-                          : 'bg-neutral-200 text-neutral-500 cursor-not-allowed'
-                      )}
-                    >
-                      <Zap className="w-3.5 h-3.5 text-[#2DD4BF]" />
-                      <span>Simulate Split-Brain Spike</span>
-                    </button>
+                    </div>
                   </div>
-                </div>
+                )}
 
                 {/* Animated Cross-Fading Tab Views */}
                 <AnimatePresence mode="wait">
@@ -510,192 +547,321 @@ export const LandingPage: React.FC = () => {
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -12 }}
                       transition={{ duration: 0.25 }}
-                      className="space-y-4"
+                      className="space-y-2"
                     >
-                      {/* Real Node Graph with Hairline SVG Connectors */}
-                      <div className="relative">
+                      {/* Interactive Connected Topological DAG Mesh Panel (Light Mode Neo-Brutalist) */}
+                      <div className="relative rounded-[16px] border border-[#E5E5E5] bg-[#FAFAF9] p-3 sm:p-3.5 overflow-hidden shadow-xs">
                         
-                        {/* SVG Hairline Connectors with Animated Teal Traveling Dots */}
-                        <svg
-                          className="absolute inset-0 w-full h-full pointer-events-none hidden md:block z-0"
-                          preserveAspectRatio="none"
-                        >
-                          <defs>
-                            <linearGradient id="lineGradPrimary" x1="0%" y1="0%" x2="100%" y2="0%">
-                              <stop offset="0%" stopColor="#E5E5E5" />
-                              <stop offset="50%" stopColor={simPhase === 'degraded' ? '#EF4444' : '#2DD4BF'} />
-                              <stop offset="100%" stopColor="#E5E5E5" />
-                            </linearGradient>
-                          </defs>
+                        {/* Blueprint Dot Matrix Grid Background */}
+                        <div
+                          className="absolute inset-0 pointer-events-none opacity-40"
+                          style={{
+                            backgroundImage: 'radial-gradient(#A3A3A3 1px, transparent 1px)',
+                            backgroundSize: '24px 24px',
+                          }}
+                        />
 
-                          {/* Line 1: Tier 0 to Tier 1 Active */}
-                          <path
-                            d="M 320,80 C 350,80 370,80 400,80"
-                            stroke={simPhase === 'degraded' ? '#EF4444' : '#E5E5E5'}
-                            strokeWidth="1.5"
-                            strokeDasharray={simPhase === 'isolated' ? '4 4' : 'none'}
-                            fill="none"
-                          />
+                        {/* Panel Header */}
+                        <div className="relative z-10 flex items-center justify-between pb-2 border-b border-[#E5E5E5] text-[11px] font-mono mb-2">
+                          <div className="flex items-center gap-2 text-[#0A0A0A] font-semibold">
+                            <span className="w-1.5 h-1.5 rounded-full bg-[#2DD4BF] animate-pulse" />
+                            <span>Active Cluster Mesh: 5 Services &bull; Kahn Verified Acyclic</span>
+                          </div>
+                          <div className="hidden sm:flex items-center gap-2 text-[#737373]">
+                            <span>O(V + E)</span>
+                            <span>&bull;</span>
+                            <span>MST Block: #4819203</span>
+                          </div>
+                        </div>
 
-                          {/* Line 2: Tier 0 to Tier 1 Standby Hot Replica */}
-                          <path
-                            d="M 320,110 C 360,110 360,190 400,190"
-                            stroke={simPhase === 'isolated' || simPhase === 'recovered' ? '#2DD4BF' : '#E5E5E5'}
-                            strokeWidth={simPhase === 'isolated' || simPhase === 'recovered' ? '2' : '1'}
-                            strokeDasharray={simPhase === 'nominal' ? '3 3' : 'none'}
-                            fill="none"
-                          />
-
-                          {/* Line 3: Tier 1 to Tier 2 Ingress */}
-                          <path
-                            d="M 700,80 C 730,80 750,80 780,80"
-                            stroke={simPhase === 'isolated' ? '#E5E5E5' : '#2DD4BF'}
-                            strokeWidth="1.5"
-                            fill="none"
-                          />
-                        </svg>
-
-                        {/* Staggered Parallax Tier Cards */}
-                        <div className="relative z-10 grid grid-cols-1 md:grid-cols-3 gap-4">
+                        {/* 4-Tier Interactive Topological Graph Area */}
+                        <div className="relative overflow-x-auto min-w-[680px]">
                           
-                          {/* TIER 0: Roots */}
-                          <div className="rounded-[20px] p-5 bg-white border border-[#E5E5E5] shadow-xs hover:-translate-y-1 hover:border-[#D4D4D4] hover:shadow-[0_8px_24px_rgba(0,0,0,0.04)] transition-all duration-300 space-y-3">
-                            <div className="flex items-center justify-between">
-                              <span className="font-mono text-[10px] text-[#0A0A0A] font-bold uppercase tracking-wider">
-                                Tier 0 // Roots
-                              </span>
-                              <span className="flex h-2 w-2 relative">
-                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#2DD4BF] opacity-75" />
-                                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#2DD4BF]" />
-                              </span>
-                            </div>
-                            <div>
-                              <div className="font-semibold text-sm text-[#0A0A0A]">PostgreSQL Primary + Redis</div>
-                              <p className="text-xs text-[#6B6B6B] mt-1 leading-relaxed">
-                                Autonomous write replication with zero-dataloss WAL streaming lock.
-                              </p>
-                            </div>
-                            <div className="font-mono text-[11px] text-emerald-700 bg-emerald-50/70 p-2 rounded-lg border border-emerald-100 flex items-center justify-between">
-                              <span>Healthy</span>
-                              <span>0.4ms</span>
-                            </div>
+                          {/* Column Tier Labels */}
+                          <div className="grid grid-cols-4 w-full text-center mb-1">
+                            <span className="font-mono text-[10px] font-bold tracking-widest text-[#737373] uppercase">TIER 0</span>
+                            <span className="font-mono text-[10px] font-bold tracking-widest text-[#737373] uppercase">TIER 1</span>
+                            <span className="font-mono text-[10px] font-bold tracking-widest text-[#737373] uppercase">TIER 2</span>
+                            <span className="font-mono text-[10px] font-bold tracking-widest text-[#737373] uppercase">TIER 3</span>
                           </div>
 
-                          {/* TIER 1: Middlewares (Target of Spike) */}
-                          <div
-                            className={cn(
-                              'rounded-[20px] p-5 bg-white border transition-all duration-300 space-y-3 hover:-translate-y-1 hover:shadow-[0_8px_24px_rgba(0,0,0,0.04)]',
-                              simPhase === 'degraded' && 'border-red-400 bg-red-50/30',
-                              simPhase === 'isolated' && 'border-amber-400 bg-amber-50/20',
-                              simPhase === 'recovered' && 'border-[#2DD4BF] bg-teal-50/20',
-                              simPhase === 'nominal' && 'border-[#E5E5E5]'
-                            )}
-                          >
-                            <div className="flex items-center justify-between">
-                              <span className="font-mono text-[10px] text-[#0A0A0A] font-bold uppercase tracking-wider">
-                                Tier 1 // Middlewares
-                              </span>
+                          {/* Graph Canvas: SVG Connection Lines & Interactive Nodes */}
+                          <div className="relative w-full h-[148px] select-none">
+                            
+                            {/* SVG Connecting Flow Lines */}
+                            <svg
+                              className="absolute inset-0 w-full h-full pointer-events-none z-0"
+                              viewBox="0 0 1000 148"
+                              preserveAspectRatio="none"
+                            >
+                              <defs>
+                                <linearGradient id="dagLineDegraded" x1="0%" y1="0%" x2="100%" y2="0%">
+                                  <stop offset="0%" stopColor="#2DD4BF" />
+                                  <stop offset="100%" stopColor="#EF4444" />
+                                </linearGradient>
+                              </defs>
+
+                              {/* Base Hairline Tracks */}
+                              <path d="M 205,74 L 295,74" stroke="#E5E5E5" strokeWidth="2" fill="none" />
+                              <path d="M 455,74 C 500,74 500,36 545,36" stroke="#E5E5E5" strokeWidth="2" fill="none" />
+                              <path d="M 455,74 C 500,74 500,112 545,112" stroke="#E5E5E5" strokeWidth="2" fill="none" />
+                              <path d="M 705,36 C 750,36 750,74 795,74" stroke="#E5E5E5" strokeWidth="2" fill="none" />
+                              <path d="M 705,112 C 750,112 750,74 795,74" stroke="#E5E5E5" strokeWidth="2" fill="none" />
+
+                              {/* Active Flow Line 1: PostgreSQL to Redis */}
+                              <path
+                                d="M 205,74 L 295,74"
+                                stroke={simPhase === 'degraded' ? 'url(#dagLineDegraded)' : '#2DD4BF'}
+                                strokeWidth="2.5"
+                                strokeDasharray={simPhase === 'isolated' ? '4 4' : 'none'}
+                                fill="none"
+                              />
+
+                              {/* Active Flow Line 2: Redis to API Gateway */}
+                              <path
+                                d="M 455,74 C 500,74 500,36 545,36"
+                                stroke={
+                                  simPhase === 'degraded' ? '#EF4444' :
+                                  simPhase === 'isolated' ? '#F59E0B' :
+                                  '#2DD4BF'
+                                }
+                                strokeWidth="2.5"
+                                strokeDasharray={simPhase === 'isolated' ? '4 4' : 'none'}
+                                fill="none"
+                              />
+
+                              {/* Active Flow Line 3: Redis to Auth Service */}
+                              <path
+                                d="M 455,74 C 500,74 500,112 545,112"
+                                stroke={
+                                  simPhase === 'degraded' ? '#EF4444' :
+                                  simPhase === 'isolated' ? '#F59E0B' :
+                                  '#2DD4BF'
+                                }
+                                strokeWidth="2.5"
+                                strokeDasharray={simPhase === 'isolated' ? '4 4' : 'none'}
+                                fill="none"
+                              />
+
+                              {/* Active Flow Line 4: API to Load Balancer */}
+                              <path
+                                d="M 705,36 C 750,36 750,74 795,74"
+                                stroke={simPhase === 'degraded' ? '#F59E0B' : '#2DD4BF'}
+                                strokeWidth="2"
+                                fill="none"
+                              />
+
+                              {/* Active Flow Line 5: Auth to Load Balancer */}
+                              <path
+                                d="M 705,112 C 750,112 750,74 795,74"
+                                stroke={simPhase === 'degraded' ? '#F59E0B' : '#2DD4BF'}
+                                strokeWidth="2"
+                                fill="none"
+                              />
+                            </svg>
+
+                            {/* HTML 4-Tier Interactive Node Layout */}
+                            <div className="relative z-10 grid grid-cols-4 w-full h-full">
                               
-                              {/* Status Indicator */}
-                              {simPhase === 'degraded' ? (
-                                <span className="relative flex h-3 w-3">
-                                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full border-2 border-[#0A0A0A] opacity-80" />
-                                  <span className="relative inline-flex rounded-full h-3 w-3 bg-[#EF4444]" />
-                                </span>
-                              ) : (
-                                <span className="flex h-2 w-2 relative">
-                                  <span className="relative inline-flex rounded-full h-2 w-2 bg-[#2DD4BF]" />
-                                </span>
-                              )}
-                            </div>
+                              {/* TIER 0: PostgreSQL */}
+                              <div className="flex items-center justify-center">
+                                <div className="w-[136px] py-1.5 px-2.5 rounded-[12px] bg-white border border-[#E5E5E5] shadow-xs text-center hover:border-[#2DD4BF] transition-all">
+                                  <div className="text-xs font-bold text-[#0A0A0A]">PostgreSQL</div>
+                                  <div className="text-[10px] font-mono text-[#6B6B6B]">Primary DB</div>
+                                  <div className="flex items-center justify-center gap-1.5 mt-1 text-[9px] font-mono font-medium">
+                                    <span className="w-1.5 h-1.5 rounded-full bg-[#2DD4BF]" />
+                                    <span className="text-teal-700">Healthy</span>
+                                  </div>
+                                </div>
+                              </div>
 
-                            <div>
-                              <div className="font-semibold text-sm text-[#0A0A0A]">Auth Gateway + Order RPC</div>
-                              <p className="text-xs text-[#6B6B6B] mt-1 leading-relaxed">
-                                Kahn topological ordering isolates circular deadlocks before cascading.
-                              </p>
-                            </div>
+                              {/* TIER 1: Redis */}
+                              <div className="flex items-center justify-center">
+                                <div
+                                  className={cn(
+                                    'w-[136px] py-1.5 px-2.5 rounded-[12px] text-center transition-all duration-300 shadow-xs border',
+                                    simPhase === 'nominal' && 'bg-white border-[#E5E5E5] hover:border-[#2DD4BF]',
+                                    simPhase === 'degraded' && 'bg-red-50/70 border-red-400 shadow-[0_0_12px_rgba(239,68,68,0.18)] scale-[1.03]',
+                                    simPhase === 'isolated' && 'bg-amber-50/60 border-amber-400',
+                                    simPhase === 'recovered' && 'bg-teal-50/20 border-[#2DD4BF]'
+                                  )}
+                                >
+                                  <div className="text-xs font-bold text-[#0A0A0A]">Redis</div>
+                                  <div className="text-[10px] font-mono text-[#6B6B6B]">Cluster</div>
+                                  <div className="flex items-center justify-center gap-1.5 mt-1 text-[9px] font-mono font-medium">
+                                    {simPhase === 'nominal' && (
+                                      <>
+                                        <span className="w-1.5 h-1.5 rounded-full bg-[#2DD4BF]" />
+                                        <span className="text-teal-700">Healthy</span>
+                                      </>
+                                    )}
+                                    {simPhase === 'degraded' && (
+                                      <>
+                                        <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-ping" />
+                                        <span className="text-red-700 font-bold">Degraded (840ms)</span>
+                                      </>
+                                    )}
+                                    {simPhase === 'isolated' && (
+                                      <>
+                                        <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />
+                                        <span className="text-amber-800 font-bold">Isolated // Standby</span>
+                                      </>
+                                    )}
+                                    {simPhase === 'recovered' && (
+                                      <>
+                                        <span className="w-1.5 h-1.5 rounded-full bg-[#2DD4BF]" />
+                                        <span className="text-teal-700 font-semibold">Recovered (0.8ms)</span>
+                                      </>
+                                    )}
+                                  </div>
+                                </div>
+                              </div>
 
-                            <div
+                              {/* TIER 2: API Gateway & Auth Service Stack */}
+                              <div className="flex flex-col justify-between py-0.5 items-center">
+                                {/* API Gateway */}
+                                <div
+                                  className={cn(
+                                    'w-[136px] py-1 px-2 rounded-[11px] text-center transition-all duration-300 shadow-xs border',
+                                    simPhase === 'nominal' && 'bg-white border-[#E5E5E5] hover:border-[#2DD4BF]',
+                                    simPhase === 'degraded' && 'bg-amber-50/40 border-amber-300',
+                                    simPhase === 'isolated' && 'bg-teal-50/30 border-teal-300',
+                                    simPhase === 'recovered' && 'bg-teal-50/20 border-[#2DD4BF]'
+                                  )}
+                                >
+                                  <div className="text-xs font-bold text-[#0A0A0A]">API</div>
+                                  <div className="text-[9px] font-mono text-[#6B6B6B]">Gateway</div>
+                                  <div className="flex items-center justify-center gap-1 mt-0.5 text-[9px] font-mono font-medium">
+                                    <span
+                                      className={cn(
+                                        'w-1.5 h-1.5 rounded-full',
+                                        simPhase === 'degraded' ? 'bg-amber-500 animate-pulse' : 'bg-[#2DD4BF]'
+                                      )}
+                                    />
+                                    <span className={simPhase === 'degraded' ? 'text-amber-700' : 'text-teal-700'}>
+                                      {simPhase === 'degraded' ? 'Cascading' : 'Healthy'}
+                                    </span>
+                                  </div>
+                                </div>
+
+                                {/* Auth Service */}
+                                <div
+                                  className={cn(
+                                    'w-[136px] py-1 px-2 rounded-[11px] text-center transition-all duration-300 shadow-xs border',
+                                    simPhase === 'nominal' && 'bg-white border-[#E5E5E5] hover:border-[#2DD4BF]',
+                                    simPhase === 'degraded' && 'bg-amber-50/40 border-amber-300',
+                                    simPhase === 'isolated' && 'bg-teal-50/30 border-teal-300',
+                                    simPhase === 'recovered' && 'bg-teal-50/20 border-[#2DD4BF]'
+                                  )}
+                                >
+                                  <div className="text-xs font-bold text-[#0A0A0A]">Auth</div>
+                                  <div className="text-[9px] font-mono text-[#6B6B6B]">Service</div>
+                                  <div className="flex items-center justify-center gap-1 mt-0.5 text-[9px] font-mono font-medium">
+                                    <span
+                                      className={cn(
+                                        'w-1.5 h-1.5 rounded-full',
+                                        simPhase === 'degraded' ? 'bg-amber-500 animate-pulse' : 'bg-[#2DD4BF]'
+                                      )}
+                                    />
+                                    <span className={simPhase === 'degraded' ? 'text-amber-700' : 'text-teal-700'}>
+                                      {simPhase === 'degraded' ? 'Cascading' : 'Healthy'}
+                                    </span>
+                                  </div>
+                                </div>
+                              </div>
+
+                              {/* TIER 3: Load Balancer */}
+                              <div className="flex items-center justify-center">
+                                <div
+                                  className={cn(
+                                    'w-[136px] py-1.5 px-2.5 rounded-[12px] text-center transition-all duration-300 shadow-xs border',
+                                    simPhase === 'nominal' && 'bg-white border-[#E5E5E5] hover:border-[#2DD4BF]',
+                                    simPhase === 'degraded' && 'bg-neutral-50 border-[#E5E5E5]',
+                                    simPhase === 'isolated' && 'bg-white border-[#E5E5E5]',
+                                    simPhase === 'recovered' && 'bg-teal-50/20 border-[#2DD4BF]'
+                                  )}
+                                >
+                                  <div className="text-xs font-bold text-[#0A0A0A]">Load</div>
+                                  <div className="text-[10px] font-mono text-[#6B6B6B]">Balancer</div>
+                                  <div className="flex items-center justify-center gap-1.5 mt-1 text-[9px] font-mono font-medium">
+                                    <span
+                                      className={cn(
+                                        'w-1.5 h-1.5 rounded-full',
+                                        simPhase === 'degraded' ? 'bg-amber-400' : 'bg-[#2DD4BF]'
+                                      )}
+                                    />
+                                    <span className={simPhase === 'degraded' ? 'text-neutral-600' : 'text-teal-700'}>
+                                      {simPhase === 'degraded' ? 'Throttled' : 'Healthy'}
+                                    </span>
+                                  </div>
+                                </div>
+                              </div>
+
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Panel Footer Action & Status Strip */}
+                        <div className="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-2 pt-2 mt-1.5 border-t border-[#E5E5E5] text-[11px] font-mono">
+                          <div className="flex items-center gap-2 text-[#0A0A0A] truncate">
+                            <span
                               className={cn(
-                                'font-mono text-[11px] p-2 rounded-lg border flex items-center justify-between transition-colors',
-                                simPhase === 'nominal' && 'text-emerald-700 bg-emerald-50/70 border-emerald-100',
-                                simPhase === 'degraded' && 'text-red-700 bg-red-100/80 border-red-200 font-bold',
-                                simPhase === 'isolated' && 'text-amber-800 bg-amber-100/70 border-amber-200 font-bold',
-                                simPhase === 'recovered' && 'text-teal-800 bg-teal-100/70 border-teal-200'
+                                'w-2 h-2 rounded-full shrink-0',
+                                simPhase === 'nominal' && 'bg-[#2DD4BF]',
+                                simPhase === 'degraded' && 'bg-red-500 animate-ping',
+                                simPhase === 'isolated' && 'bg-amber-500',
+                                simPhase === 'recovered' && 'bg-[#2DD4BF]'
+                              )}
+                            />
+                            <span className="truncate">
+                              {simPhase === 'nominal' && 'All 5 topology nodes healthy. Ready to simulate failure injection.'}
+                              {simPhase === 'degraded' && 'Tier 1 Split-Brain incident active. Blast radius cascading downstream.'}
+                              {simPhase === 'isolated' && 'Kahn topological sort isolated Tier 1. Hot Standby promoted.'}
+                              {simPhase === 'recovered' && 'Self-healing verified: 5/5 services nominal in 24.8s. Proof attested on MST Testnet.'}
+                            </span>
+                          </div>
+
+                          <div className="flex items-center gap-2 self-start sm:self-auto shrink-0">
+                            {simPhase !== 'nominal' && (
+                              <button
+                                type="button"
+                                onClick={resetSimulation}
+                                className="px-3 py-1 rounded-full bg-white border border-[#E5E5E5] text-[#0A0A0A] hover:bg-neutral-50 font-semibold flex items-center gap-1.5 transition-colors cursor-pointer shadow-xs text-[11px]"
+                              >
+                                <RefreshCw className="w-3 h-3 text-[#6B6B6B]" />
+                                <span>Reset</span>
+                              </button>
+                            )}
+
+                            <button
+                              type="button"
+                              onClick={triggerSplitBrainSimulation}
+                              className={cn(
+                                'px-3.5 py-1.5 rounded-full font-semibold flex items-center gap-1.5 transition-all cursor-pointer shadow-xs active:scale-95 text-[11px]',
+                                simPhase === 'nominal' || simPhase === 'recovered'
+                                  ? 'bg-[#0A0A0A] text-white hover:bg-neutral-800'
+                                  : 'bg-neutral-200 text-neutral-500 cursor-not-allowed'
                               )}
                             >
-                              <span>
-                                {simPhase === 'nominal' && 'Healthy'}
-                                {simPhase === 'degraded' && 'Degraded // Split-Brain'}
-                                {simPhase === 'isolated' && 'Isolated // Kahn Pruned'}
-                                {simPhase === 'recovered' && 'Recovered // 0.8ms'}
-                              </span>
-                              <span>
-                                {simPhase === 'nominal' && '4.2ms'}
-                                {simPhase === 'degraded' && '840ms'}
-                                {simPhase === 'isolated' && '0.6ms (Standby)'}
-                                {simPhase === 'recovered' && '0.8ms'}
-                              </span>
-                            </div>
-
-                            {/* Standby Hot Replica notice when failover engages */}
-                            {(simPhase === 'isolated' || simPhase === 'recovered') && (
-                              <div className="text-[10px] font-mono text-teal-800 bg-teal-50 p-2 rounded-lg border border-teal-200 flex items-center gap-1.5 animate-fadeIn">
-                                <span className="w-1.5 h-1.5 rounded-full bg-[#2DD4BF]" />
-                                <span>Traffic visibly re-routed to Standby Hot Replica</span>
-                              </div>
-                            )}
+                              <Zap className="w-3 h-3 text-[#2DD4BF]" />
+                              <span>Trigger Chaos</span>
+                            </button>
                           </div>
-
-                          {/* TIER 2: Edge Ingress */}
-                          <div className="rounded-[20px] p-5 bg-white border border-[#E5E5E5] shadow-xs hover:-translate-y-1 hover:border-[#D4D4D4] hover:shadow-[0_8px_24px_rgba(0,0,0,0.04)] transition-all duration-300 space-y-3">
-                            <div className="flex items-center justify-between">
-                              <span className="font-mono text-[10px] text-[#0A0A0A] font-bold uppercase tracking-wider">
-                                Tier 2 // Edge
-                              </span>
-                              <span className="flex h-2 w-2 relative">
-                                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#2DD4BF]" />
-                              </span>
-                            </div>
-                            <div>
-                              <div className="font-semibold text-sm text-[#0A0A0A]">GraphQL Ingress + CDN</div>
-                              <p className="text-xs text-[#6B6B6B] mt-1 leading-relaxed">
-                                Edge traffic preserved at wire-speed during upstream partition containment.
-                              </p>
-                            </div>
-                            <div className="font-mono text-[11px] text-emerald-700 bg-emerald-50/70 p-2 rounded-lg border border-emerald-100 flex items-center justify-between">
-                              <span>Healthy</span>
-                              <span>12.1ms</span>
-                            </div>
-                          </div>
-
                         </div>
+
                       </div>
 
                       {/* Mini Ledger of Recent On-Chain State Mutations */}
-                      <div className="p-3.5 rounded-xl bg-[#FAFAF9] border border-[#E5E5E5] space-y-2">
-                        <div className="flex items-center justify-between text-[10px] font-mono uppercase tracking-wider text-[#A3A3A3]">
-                          <span>On-Chain Cryptographic Recovery Ledger</span>
-                          <span>MST Testnet Chain ID 91562037</span>
+                      <div className="py-1 px-2.5 rounded-lg bg-[#FAFAF9] border border-[#E5E5E5] flex items-center justify-between font-mono text-[10px] text-[#0A0A0A]">
+                        <div className="flex items-center gap-2 truncate">
+                          <span className="text-[#A3A3A3] uppercase tracking-wider font-semibold">LEDGER:</span>
+                          <span className="text-[#6B6B6B] font-semibold">{ledgerEntries[0]?.id}:</span>
+                          <span className="truncate">{ledgerEntries[0]?.action}</span>
+                          <span className="text-[#A3A3A3]">[{ledgerEntries[0]?.hash}]</span>
                         </div>
-                        <div className="space-y-1 font-mono text-[11px]">
-                          {ledgerEntries.map((entry) => (
-                            <div
-                              key={entry.id}
-                              className="flex items-center justify-between py-1 px-2.5 rounded bg-white border border-[#E5E5E5] text-[#0A0A0A]"
-                            >
-                              <div className="flex items-center gap-2 truncate">
-                                <span className="text-[#6B6B6B] font-semibold">{entry.id}:</span>
-                                <span className="truncate">{entry.action}</span>
-                                <span className="text-[#A3A3A3] text-[10px]">[{entry.hash}]</span>
-                              </div>
-                              <div className="flex items-center gap-2 shrink-0 ml-2">
-                                <span className="text-[10px] text-[#2DD4BF] font-semibold">{entry.status}</span>
-                                <span className="text-[10px] text-[#A3A3A3]">{entry.time}</span>
-                              </div>
-                            </div>
-                          ))}
+                        <div className="flex items-center gap-2 shrink-0 ml-2">
+                          <span className="text-[#2DD4BF] font-semibold">{ledgerEntries[0]?.status}</span>
+                          <span className="text-[#A3A3A3]">{ledgerEntries[0]?.time}</span>
                         </div>
                       </div>
 
@@ -840,10 +1006,11 @@ export const LandingPage: React.FC = () => {
 
               </div>
             </div>
-
           </div>
+
         </div>
-      </section>
+      </div>
+    </section>
 
       {/* ═════════════════════════════════════════════════════════════
           ACT III: KAHN TOPOLOGICAL BLUEPRINT RAIL
@@ -863,71 +1030,71 @@ export const LandingPage: React.FC = () => {
             <span className="text-xs font-mono font-semibold text-[#0A0A0A] uppercase tracking-[0.12em]">
               Mathematical Foundation
             </span>
-            <h2 className="text-3xl sm:text-5xl font-['Instrument_Serif',serif] tracking-tight text-[#0A0A0A] leading-tight">
+            <h2 className="text-3xl sm:text-5xl font-['Instrument_Serif',serif] tracking-tight text-[#0A0A0A] leading-[1.14]">
               <span className="text-[#A3A3A3] font-normal">Deterministic recovery, </span>
               <span className="italic font-normal text-[#0A0A0A]">guaranteed by Kahn DAG.</span>
             </h2>
-            <p className="text-xs sm:text-sm text-[#6B6B6B] leading-relaxed max-w-xl mx-auto">
+            <p className="text-[13px] sm:text-sm text-[#6B6B6B] leading-[1.65] max-w-2xl mx-auto">
               Zero heuristic guessing. Infrastructure is formally compiled into a directed acyclic graph, ensuring bottom-up restoration without cycle deadlocks.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-4 gap-5">
             
-            <div className="p-6 rounded-[20px] bg-white border border-[#E5E5E5] space-y-3 hover:-translate-y-1 hover:border-[#D4D4D4] hover:shadow-[0_8px_24px_rgba(0,0,0,0.04)] transition-all duration-300">
+            <div className="p-6 rounded-[22px] bg-white border border-[#E5E5E5] space-y-3.5 hover:-translate-y-1 hover:border-[#D4D4D4] hover:shadow-[0_8px_24px_rgba(0,0,0,0.04)] transition-all duration-300">
               <div className="flex items-center justify-between font-mono text-xs">
                 <span className="text-[#0A0A0A] font-bold">STAGE 01</span>
                 <span className="text-[#A3A3A3]">
                   <CountUp end={120} suffix="Hz" />
                 </span>
               </div>
-              <h3 className="font-semibold text-sm text-[#0A0A0A]">eBPF Telemetry Ingestion</h3>
-              <p className="text-xs text-[#6B6B6B] leading-relaxed">
+              <h3 className="font-sans font-semibold text-[15px] text-[#0A0A0A] leading-snug">eBPF Telemetry Ingestion</h3>
+              <p className="text-[13px] text-[#6B6B6B] leading-[1.6]">
                 Kernel-level probe stream tracking socket health, thread pools, and process tripwires with zero sidecar overhead.
               </p>
-              <div className="font-mono text-[10px] p-2 rounded-lg bg-[#FAFAF9] text-[#6B6B6B] border border-[#E5E5E5]">
+              <div className="font-mono text-[11px] p-2.5 rounded-lg bg-[#FAFAF9] text-[#6B6B6B] border border-[#E5E5E5]">
                 tripwire_latency &gt; 500ms
               </div>
             </div>
 
-            <div className="p-6 rounded-[20px] bg-white border border-[#E5E5E5] space-y-3 hover:-translate-y-1 hover:border-[#D4D4D4] hover:shadow-[0_8px_24px_rgba(0,0,0,0.04)] transition-all duration-300">
+            <div className="p-6 rounded-[22px] bg-white border border-[#E5E5E5] space-y-3.5 hover:-translate-y-1 hover:border-[#D4D4D4] hover:shadow-[0_8px_24px_rgba(0,0,0,0.04)] transition-all duration-300">
               <div className="flex items-center justify-between font-mono text-xs">
                 <span className="text-[#0A0A0A] font-bold">STAGE 02</span>
                 <span className="text-[#A3A3A3]">O(V+E)</span>
               </div>
-              <h3 className="font-semibold text-sm text-[#0A0A0A]">Topological Blast Isolation</h3>
-              <p className="text-xs text-[#6B6B6B] leading-relaxed">
+              <h3 className="font-sans font-semibold text-[15px] text-[#0A0A0A] leading-snug">Topological Blast Isolation</h3>
+              <p className="text-[13px] text-[#6B6B6B] leading-[1.6]">
                 Kahn topological sort isolates degraded upstream services while preserving independent traffic lanes to prevent outages.
               </p>
-              <div className="font-mono text-[10px] p-2 rounded-lg bg-[#FAFAF9] text-[#6B6B6B] border border-[#E5E5E5]">
+              <div className="font-mono text-[11px] p-2.5 rounded-lg bg-[#FAFAF9] text-[#6B6B6B] border border-[#E5E5E5]">
                 Kahn: in_degree[v] == 0
               </div>
             </div>
 
-            <div className="p-6 rounded-[20px] bg-white border border-[#E5E5E5] space-y-3 hover:-translate-y-1 hover:border-[#D4D4D4] hover:shadow-[0_8px_24px_rgba(0,0,0,0.04)] transition-all duration-300">
+            <div className="p-6 rounded-[22px] bg-white border border-[#E5E5E5] space-y-3.5 hover:-translate-y-1 hover:border-[#D4D4D4] hover:shadow-[0_8px_24px_rgba(0,0,0,0.04)] transition-all duration-300">
               <div className="flex items-center justify-between font-mono text-xs">
                 <span className="text-[#0A0A0A] font-bold">STAGE 03</span>
                 <span className="text-[#A3A3A3]">EIP-712</span>
               </div>
-              <h3 className="font-semibold text-sm text-[#0A0A0A]">Cryptographic Human Gate</h3>
-              <p className="text-xs text-[#6B6B6B] leading-relaxed">
+              <h3 className="font-sans font-semibold text-[15px] text-[#0A0A0A] leading-snug">Cryptographic Human Gate</h3>
+              <p className="text-[13px] text-[#6B6B6B] leading-[1.6]">
                 Critical blast actions require ECDSA secp256k1 signatures from authorized BridgeKey commanders. Zero rogue actions.
               </p>
-              <div className="font-mono text-[10px] p-2 rounded-lg bg-[#FAFAF9] text-[#6B6B6B] border border-[#E5E5E5]">
+              <div className="font-mono text-[11px] p-2.5 rounded-lg bg-[#FAFAF9] text-[#6B6B6B] border border-[#E5E5E5]">
                 verify(domain, actionHash, sig)
               </div>
             </div>
 
-            <div className="p-6 rounded-[20px] bg-white border border-[#E5E5E5] space-y-3 hover:-translate-y-1 hover:border-[#D4D4D4] hover:shadow-[0_8px_24px_rgba(0,0,0,0.04)] transition-all duration-300">
+            <div className="p-6 rounded-[22px] bg-white border border-[#E5E5E5] space-y-3.5 hover:-translate-y-1 hover:border-[#D4D4D4] hover:shadow-[0_8px_24px_rgba(0,0,0,0.04)] transition-all duration-300">
               <div className="flex items-center justify-between font-mono text-xs">
                 <span className="text-[#0A0A0A] font-bold">STAGE 04</span>
                 <span className="text-[#A3A3A3]">SHA-256</span>
               </div>
-              <h3 className="font-semibold text-sm text-[#0A0A0A]">On-Chain Merkle Vault</h3>
-              <p className="text-xs text-[#6B6B6B] leading-relaxed">
+              <h3 className="font-sans font-semibold text-[15px] text-[#0A0A0A] leading-snug">On-Chain Merkle Vault</h3>
+              <p className="text-[13px] text-[#6B6B6B] leading-[1.6]">
                 Every state transition, AI diagnosis, and command execution is hashed into an immutable Merkle root anchored to MST Testnet.
               </p>
-              <div className="font-mono text-[10px] p-2 rounded-lg bg-[#FAFAF9] text-[#6B6B6B] border border-[#E5E5E5]">
+              <div className="font-mono text-[11px] p-2.5 rounded-lg bg-[#FAFAF9] text-[#6B6B6B] border border-[#E5E5E5]">
                 merkleRoot.attest(blockNum)
               </div>
             </div>

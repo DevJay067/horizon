@@ -86,8 +86,8 @@ export const SubscriptionPage: React.FC = () => {
         </a>
 
         {/* Faint Stipple Globe Side-Peek Motif */}
-        <div className="absolute right-0 top-0 pointer-events-none opacity-20 hidden lg:block -mr-16 -mt-8">
-          <Globe size="200px" crop="side-peek" />
+        <div className="absolute right-0 -top-6 pointer-events-none opacity-30 hidden lg:block -mr-8">
+          <Globe size="190px" crop="side-peek" />
         </div>
       </motion.div>
 

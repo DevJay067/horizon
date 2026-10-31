@@ -1055,16 +1055,16 @@ export const DocsPage: React.FC = () => {
       </motion.div>
 
       {/* MDN Admonition: Protocol Safety Barrier */}
-      <motion.div variants={itemVariants} className="p-4 sm:p-5 rounded-2xl bg-amber-950/40 border border-amber-700 shadow-xs flex items-start gap-3.5">
+      <motion.div variants={itemVariants} className="p-4 sm:p-5 rounded-2xl bg-amber-50 border border-amber-200 shadow-xs shadow-xs flex items-start gap-3.5">
         <AlertTriangle className="w-5 h-5 text-amber-700 shrink-0 mt-0.5" />
         <div className="space-y-1 text-xs sm:text-sm">
-          <div className="font-bold text-amber-200 flex items-center gap-2">
+          <div className="font-bold text-amber-800 flex items-center gap-2">
             <span>IMPORTANT: Cryptographic EIP-712 Consensus Barrier</span>
-            <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-900/60 text-amber-200 font-bold">
+            <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-100 text-amber-800 font-bold">
               SECURITY INVARIANT
             </span>
           </div>
-          <p className="text-amber-300 leading-relaxed font-medium">
+          <p className="text-amber-900 leading-relaxed font-medium">
             High-risk Tier 0 infrastructure recovery operations (database failovers, stateful volume resets, and DNS traffic switchovers)
             unconditionally require an authorized Commander cryptographic signature via BridgeKey Wallet on MST Testnet. Autonomous agents
             cannot execute cutovers without this cryptographic proof.
@@ -1073,16 +1073,16 @@ export const DocsPage: React.FC = () => {
       </motion.div>
 
       {/* Main Tabs Navigation */}
-      <motion.div variants={itemVariants} className="flex flex-wrap items-center gap-2 border-b border-white/[0.08] pb-3 text-xs">
+      <motion.div variants={itemVariants} className="flex flex-wrap items-center gap-2 border-b border-[#E5E5E5] pb-3 text-xs">
         <button
           onClick={() => setActiveTab('mcp')}
           className={`px-4 py-2.5 rounded-xl font-bold transition-all cursor-pointer flex items-center gap-2 ${
             activeTab === 'mcp'
-              ? 'bg-[#6366F1] text-white shadow-sm'
-              : 'bg-[#141416] text-[#A1A1AA] hover:text-[#EDEDED] hover:bg-[#18181B] border border-white/[0.08]'
+              ? 'bg-[#0A0A0A] text-white shadow-xs'
+              : 'bg-white text-[#6B6B6B] hover:text-[#0A0A0A] hover:bg-[#FAFAF9] border border-[#E5E5E5] shadow-xs'
           }`}
         >
-          <Cpu className="w-4 h-4" />
+          <Cpu className="w-4 h-4 text-[#2DD4BF]" />
           <span>MCP Server & Tools Reference</span>
         </button>
 
@@ -1090,11 +1090,11 @@ export const DocsPage: React.FC = () => {
           onClick={() => setActiveTab('slash')}
           className={`px-4 py-2.5 rounded-xl font-bold transition-all cursor-pointer flex items-center gap-2 ${
             activeTab === 'slash'
-              ? 'bg-[#6366F1] text-white shadow-sm'
-              : 'bg-[#141416] text-[#A1A1AA] hover:text-[#EDEDED] hover:bg-[#18181B] border border-white/[0.08]'
+              ? 'bg-[#0A0A0A] text-white shadow-xs'
+              : 'bg-white text-[#6B6B6B] hover:text-[#0A0A0A] hover:bg-[#FAFAF9] border border-[#E5E5E5] shadow-xs'
           }`}
         >
-          <Command className="w-4 h-4" />
+          <Command className="w-4 h-4 text-[#2DD4BF]" />
           <span>Slash (/) Commands</span>
         </button>
 
@@ -1102,11 +1102,11 @@ export const DocsPage: React.FC = () => {
           onClick={() => setActiveTab('cli')}
           className={`px-4 py-2.5 rounded-xl font-bold transition-all cursor-pointer flex items-center gap-2 ${
             activeTab === 'cli'
-              ? 'bg-[#6366F1] text-white shadow-sm'
-              : 'bg-[#141416] text-[#A1A1AA] hover:text-[#EDEDED] hover:bg-[#18181B] border border-white/[0.08]'
+              ? 'bg-[#0A0A0A] text-white shadow-xs'
+              : 'bg-white text-[#6B6B6B] hover:text-[#0A0A0A] hover:bg-[#FAFAF9] border border-[#E5E5E5] shadow-xs'
           }`}
         >
-          <Terminal className="w-4 h-4" />
+          <Terminal className="w-4 h-4 text-[#2DD4BF]" />
           <span>CLI Reference</span>
         </button>
 
@@ -1114,11 +1114,11 @@ export const DocsPage: React.FC = () => {
           onClick={() => setActiveTab('api')}
           className={`px-4 py-2.5 rounded-xl font-bold transition-all cursor-pointer flex items-center gap-2 ${
             activeTab === 'api'
-              ? 'bg-[#6366F1] text-white shadow-sm'
-              : 'bg-[#141416] text-[#A1A1AA] hover:text-[#EDEDED] hover:bg-[#18181B] border border-white/[0.08]'
+              ? 'bg-[#0A0A0A] text-white shadow-xs'
+              : 'bg-white text-[#6B6B6B] hover:text-[#0A0A0A] hover:bg-[#FAFAF9] border border-[#E5E5E5] shadow-xs'
           }`}
         >
-          <Globe className="w-4 h-4" />
+          <Globe className="w-4 h-4 text-[#2DD4BF]" />
           <span>REST & Edge API</span>
         </button>
       </motion.div>
@@ -1127,75 +1127,75 @@ export const DocsPage: React.FC = () => {
       {activeTab === 'mcp' && (
         <div className="space-y-10">
           {/* Quick Jump In-Page TOC */}
-          <div className="p-4 rounded-2xl bg-[#141416] border border-white/[0.08] flex flex-wrap items-center gap-2 text-xs">
-            <span className="font-bold text-[#EDEDED] uppercase tracking-wider text-[11px] mr-2">In This Guide:</span>
-            <a href="#quickstart" className="px-3 py-1 rounded-lg bg-[#18181B] border border-white/[0.08] text-[#6366F1] font-bold hover:bg-indigo-950/40 transition-colors">
+          <div className="p-4 rounded-2xl bg-white border border-[#E5E5E5] flex flex-wrap items-center gap-2 text-xs">
+            <span className="font-bold text-[#0A0A0A] uppercase tracking-wider text-[11px] mr-2">In This Guide:</span>
+            <a href="#quickstart" className="px-3 py-1 rounded-lg bg-[#FAFAF9] border border-[#E5E5E5] text-[#6366F1] font-bold hover:bg-indigo-50 transition-colors">
               1. Quick Start
             </a>
-            <a href="#client-config" className="px-3 py-1 rounded-lg bg-[#18181B] border border-white/[0.08] text-[#6366F1] font-bold hover:bg-indigo-950/40 transition-colors">
+            <a href="#client-config" className="px-3 py-1 rounded-lg bg-[#FAFAF9] border border-[#E5E5E5] text-[#6366F1] font-bold hover:bg-indigo-50 transition-colors">
               2. Client Setup
             </a>
-            <a href="#tool-specifications" className="px-3 py-1 rounded-lg bg-[#18181B] border border-white/[0.08] text-[#6366F1] font-bold hover:bg-indigo-950/40 transition-colors">
+            <a href="#tool-specifications" className="px-3 py-1 rounded-lg bg-[#FAFAF9] border border-[#E5E5E5] text-[#6366F1] font-bold hover:bg-indigo-50 transition-colors">
               3. Tool Catalogue
             </a>
-            <a href="#wire-inspector" className="px-3 py-1 rounded-lg bg-[#18181B] border border-white/[0.08] text-[#6366F1] font-bold hover:bg-indigo-950/40 transition-colors">
+            <a href="#wire-inspector" className="px-3 py-1 rounded-lg bg-[#FAFAF9] border border-[#E5E5E5] text-[#6366F1] font-bold hover:bg-indigo-50 transition-colors">
               4. JSON-RPC 2.0 Wire
             </a>
-            <a href="#error-codes" className="px-3 py-1 rounded-lg bg-[#18181B] border border-white/[0.08] text-[#6366F1] font-bold hover:bg-indigo-950/40 transition-colors">
+            <a href="#error-codes" className="px-3 py-1 rounded-lg bg-[#FAFAF9] border border-[#E5E5E5] text-[#6366F1] font-bold hover:bg-indigo-50 transition-colors">
               5. Error Codes
             </a>
-            <a href="#compatibility" className="px-3 py-1 rounded-lg bg-[#18181B] border border-white/[0.08] text-[#6366F1] font-bold hover:bg-indigo-950/40 transition-colors">
+            <a href="#compatibility" className="px-3 py-1 rounded-lg bg-[#FAFAF9] border border-[#E5E5E5] text-[#6366F1] font-bold hover:bg-indigo-50 transition-colors">
               6. Compatibility Matrix
             </a>
           </div>
 
           {/* Section 1: Quickstart Deck */}
-          <section id="quickstart" className="bg-[#141416] border border-[#6366F1]/50 p-6 sm:p-8 rounded-3xl shadow-xl text-white relative overflow-hidden">
+          <section id="quickstart" className="bg-white border border-[#E5E5E5] p-6 sm:p-8 rounded-3xl shadow-[6px_6px_24px_rgba(0,0,0,0.03),inset_0_1px_0_rgba(255,255,255,1)] text-[#0A0A0A] relative overflow-hidden">
             <div className="relative z-10 max-w-3xl space-y-4">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#18181B]/20 border border-white/30 text-xs font-mono font-bold">
-                <Terminal className="w-3.5 h-3.5" />
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FAFAF9] border border-[#E5E5E5] text-xs font-mono font-bold text-[#0A0A0A] shadow-xs">
+                <Terminal className="w-3.5 h-3.5 text-[#2DD4BF]" />
                 <span>Instant Agent Toolchain Installation</span>
               </div>
-              <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-white">
+              <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-[#0A0A0A]">
                 Zero-Configuration MCP Integration for LLM Agents
               </h2>
-              <p className="text-xs sm:text-sm text-white/80 leading-relaxed font-medium">
+              <p className="text-xs sm:text-sm text-[#6B6B6B] leading-relaxed font-medium">
                 Execute Horizon MCP locally over stdio or connect remotely through Server-Sent Events (SSE).
                 Allows Claude, Cursor, Antigravity, and autonomous agents to diagnose topologies, calculate blast radiuses,
                 and orchestrate Kahn recovery sequences.
               </p>
 
               <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-                <div className="flex-1 p-3 rounded-xl bg-black/40 border border-white/20 flex items-center justify-between font-mono text-xs text-cyan-300">
+                <div className="flex-1 p-3 rounded-xl bg-[#FAFAF9] border border-[#E5E5E5] flex items-center justify-between font-mono text-xs text-[#0A0A0A] shadow-inner">
                   <span className="truncate">bunx @horizon/mcp-server@latest</span>
                   <button
                     onClick={() => copyToClipboard('bunx @horizon/mcp-server@latest', 'hero-cli')}
-                    className="text-white/80 hover:text-white ml-2 p-1 rounded hover:bg-[#18181B]/10 transition-colors"
+                    className="text-[#6B6B6B] hover:text-[#0A0A0A] ml-2 p-1 rounded hover:bg-neutral-200/50 transition-colors cursor-pointer"
                     title="Copy command"
                   >
-                    {copiedKey === 'hero-cli' ? <Check className="w-4 h-4 text-emerald-300" /> : <Copy className="w-4 h-4" />}
+                    {copiedKey === 'hero-cli' ? <Check className="w-4 h-4 text-emerald-600" /> : <Copy className="w-4 h-4" />}
                   </button>
                 </div>
                 <a
                   href="https://modelcontextprotocol.io"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-[#18181B] text-[#6366F1] text-xs font-bold hover:bg-stone-100 transition-colors shadow-md"
+                  className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-white border border-[#E5E5E5] text-[#0A0A0A] text-xs font-bold hover:bg-neutral-50 transition-colors shadow-xs"
                 >
                   <span>Official MCP Specification</span>
-                  <ExternalLink className="w-3.5 h-3.5" />
+                  <ExternalLink className="w-3.5 h-3.5 text-[#0047AB]" />
                 </a>
               </div>
             </div>
           {/* Live Production Server & Firewall Whitelist Card */}
-          <div className="p-5 rounded-2xl bg-[#18181B] border border-white/[0.08] shadow-xs space-y-4">
+          <div className="p-5 rounded-2xl bg-[#FAFAF9] border border-[#E5E5E5] shadow-xs space-y-4">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[#0A0A0A] pb-3">
               <div className="flex items-center gap-2">
                 <span className="relative flex h-2.5 w-2.5">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                   <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-950/400"></span>
                 </span>
-                <span className="text-xs font-black text-[#EDEDED] uppercase tracking-wider">
+                <span className="text-xs font-black text-[#0A0A0A] uppercase tracking-wider">
                   Live Production MCP Server (Render Free Tier)
                 </span>
               </div>
@@ -1211,7 +1211,7 @@ export const DocsPage: React.FC = () => {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 text-xs">
-              <div className="p-3 rounded-xl bg-[#141416] border border-white/[0.08] space-y-1">
+              <div className="p-3 rounded-xl bg-white border border-[#E5E5E5] space-y-1">
                 <span className="text-[10px] uppercase font-bold tracking-wider text-[#737373]">Production SSE Stream URL</span>
                 <div className="flex items-center justify-between font-mono text-[11px] text-[#6366F1] font-semibold break-all">
                   <span className="truncate">https://horizon-mcp-server-phf8.onrender.com/sse</span>
@@ -1227,7 +1227,7 @@ export const DocsPage: React.FC = () => {
                     </a>
                     <button
                       onClick={() => copyToClipboard('https://horizon-mcp-server-phf8.onrender.com/sse', 'prod-sse')}
-                      className="p-1 text-[#A1A1AA] hover:text-[#EDEDED]"
+                      className="p-1 text-[#6B6B6B] hover:text-[#0A0A0A]"
                       title="Copy URL"
                     >
                       {copiedKey === 'prod-sse' ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
@@ -1236,7 +1236,7 @@ export const DocsPage: React.FC = () => {
                 </div>
               </div>
 
-              <div className="p-3 rounded-xl bg-[#141416] border border-white/[0.08] space-y-1">
+              <div className="p-3 rounded-xl bg-white border border-[#E5E5E5] space-y-1">
                 <span className="text-[10px] uppercase font-bold tracking-wider text-[#737373]">Direct JSON-RPC 2.0 URL</span>
                 <div className="flex items-center justify-between font-mono text-[11px] text-[#6366F1] font-semibold break-all">
                   <span className="truncate">https://horizon-mcp-server-phf8.onrender.com/mcp</span>
@@ -1252,7 +1252,7 @@ export const DocsPage: React.FC = () => {
                     </a>
                     <button
                       onClick={() => copyToClipboard('https://horizon-mcp-server-phf8.onrender.com/mcp', 'prod-mcp')}
-                      className="p-1 text-[#A1A1AA] hover:text-[#EDEDED]"
+                      className="p-1 text-[#6B6B6B] hover:text-[#0A0A0A]"
                       title="Copy URL"
                     >
                       {copiedKey === 'prod-mcp' ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
@@ -1261,7 +1261,7 @@ export const DocsPage: React.FC = () => {
                 </div>
               </div>
 
-              <div className="p-3 rounded-xl bg-[#141416] border border-white/[0.08] space-y-1">
+              <div className="p-3 rounded-xl bg-white border border-[#E5E5E5] space-y-1">
                 <span className="text-[10px] uppercase font-bold tracking-wider text-[#737373]">Live Health Probe Endpoint</span>
                 <div className="flex items-center justify-between font-mono text-[11px] text-[#6366F1] font-semibold break-all">
                   <span className="truncate">https://horizon-mcp-server-phf8.onrender.com/health</span>
@@ -1277,7 +1277,7 @@ export const DocsPage: React.FC = () => {
                     </a>
                     <button
                       onClick={() => copyToClipboard('https://horizon-mcp-server-phf8.onrender.com/health', 'prod-health')}
-                      className="p-1 text-[#A1A1AA] hover:text-[#EDEDED]"
+                      className="p-1 text-[#6B6B6B] hover:text-[#0A0A0A]"
                       title="Copy URL"
                     >
                       {copiedKey === 'prod-health' ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
@@ -1286,7 +1286,7 @@ export const DocsPage: React.FC = () => {
                 </div>
               </div>
 
-              <div className="p-3 rounded-xl bg-[#141416] border border-white/[0.08] space-y-1">
+              <div className="p-3 rounded-xl bg-white border border-[#E5E5E5] space-y-1">
                 <span className="text-[10px] uppercase font-bold tracking-wider text-[#737373]">Interactive Web Console</span>
                 <div className="flex items-center justify-between font-mono text-[11px] text-[#6366F1] font-semibold break-all">
                   <span className="truncate">https://horizon-mcp-server-phf8.onrender.com/</span>
@@ -1302,7 +1302,7 @@ export const DocsPage: React.FC = () => {
                     </a>
                     <button
                       onClick={() => copyToClipboard('https://horizon-mcp-server-phf8.onrender.com/', 'prod-dashboard')}
-                      className="p-1 text-[#A1A1AA] hover:text-[#EDEDED]"
+                      className="p-1 text-[#6B6B6B] hover:text-[#0A0A0A]"
                       title="Copy URL"
                     >
                       {copiedKey === 'prod-dashboard' ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
@@ -1311,7 +1311,7 @@ export const DocsPage: React.FC = () => {
                 </div>
               </div>
 
-              <div className="p-3 rounded-xl bg-[#141416] border border-white/[0.08] space-y-1 md:col-span-2">
+              <div className="p-3 rounded-xl bg-white border border-[#E5E5E5] space-y-1 md:col-span-2">
                 <span className="text-[10px] uppercase font-bold tracking-wider text-[#737373]">Inbound Alert Webhook Ingestion</span>
                 <div className="flex items-center justify-between font-mono text-[11px] text-[#6366F1] font-semibold break-all">
                   <span className="truncate">https://horizon-mcp-server-phf8.onrender.com/api/v1/incidents/webhook</span>
@@ -1327,7 +1327,7 @@ export const DocsPage: React.FC = () => {
                     </a>
                     <button
                       onClick={() => copyToClipboard('https://horizon-mcp-server-phf8.onrender.com/api/v1/incidents/webhook', 'prod-webhook')}
-                      className="p-1 text-[#A1A1AA] hover:text-[#EDEDED]"
+                      className="p-1 text-[#6B6B6B] hover:text-[#0A0A0A]"
                       title="Copy URL"
                     >
                       {copiedKey === 'prod-webhook' ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
@@ -1346,18 +1346,18 @@ export const DocsPage: React.FC = () => {
                 </span>
                 <button
                   onClick={() => copyToClipboard('74.220.52.0/24\n74.220.60.0/24', 'egress-ips')}
-                  className="inline-flex items-center gap-1 text-[11px] font-bold text-amber-300 hover:text-amber-950 px-2 py-0.5 rounded bg-amber-100/70"
+                  className="inline-flex items-center gap-1 text-[11px] font-bold text-amber-900 hover:text-amber-950 px-2 py-0.5 rounded bg-amber-100/70"
                 >
                   {copiedKey === 'egress-ips' ? <Check className="w-3 h-3 text-emerald-600" /> : <Copy className="w-3 h-3" />}
                   <span>{copiedKey === 'egress-ips' ? 'Copied' : 'Copy CIDRs'}</span>
                 </button>
               </div>
-              <p className="text-[11px] text-amber-200 leading-relaxed">
+              <p className="text-[11px] text-amber-800 leading-relaxed">
                 Whitelist these Render Oregon (US West) IP blocks in your AWS Security Groups, MongoDB Atlas, or Kubernetes ingress controllers to accept authenticated recovery webhooks and database probes:
               </p>
               <div className="flex flex-wrap gap-2 font-mono text-[11px]">
-                <code className="px-2 py-1 rounded bg-[#18181B] border border-amber-700 font-bold text-amber-950">74.220.52.0/24</code>
-                <code className="px-2 py-1 rounded bg-[#18181B] border border-amber-700 font-bold text-amber-950">74.220.60.0/24</code>
+                <code className="px-2 py-1 rounded bg-[#FAFAF9] border border-amber-700 font-bold text-amber-950">74.220.52.0/24</code>
+                <code className="px-2 py-1 rounded bg-[#FAFAF9] border border-amber-700 font-bold text-amber-950">74.220.60.0/24</code>
               </div>
             </div>
           </div>
@@ -1367,25 +1367,25 @@ export const DocsPage: React.FC = () => {
           <section id="client-config" className="space-y-4">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
               <div>
-                <h2 className="text-xl font-black text-[#EDEDED] flex items-center gap-2">
+                <h2 className="text-xl font-black text-[#0A0A0A] flex items-center gap-2">
                   <Hash className="w-5 h-5 text-[#6366F1]" />
                   <span>Client Configuration Reference</span>
                 </h2>
-                <p className="text-xs sm:text-sm text-[#A1A1AA] font-medium">
+                <p className="text-xs sm:text-sm text-[#6B6B6B] font-medium">
                   Add the Horizon MCP server configuration to your AI agent environment. File paths and JSON configurations are detailed per IDE.
                 </p>
               </div>
 
               {/* Client selector tabs */}
-              <div className="flex items-center gap-1.5 p-1 rounded-xl bg-[#141416] border border-white/[0.08]">
+              <div className="flex items-center gap-1.5 p-1 rounded-xl bg-white border border-[#E5E5E5]">
                 {(['claude', 'cursor', 'antigravity', 'windsurf'] as const).map((client) => (
                   <button
                     key={client}
                     onClick={() => setMcpClient(client)}
                     className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all capitalize cursor-pointer ${
                       mcpClient === client
-                        ? 'bg-[#18181B] text-[#6366F1] shadow-xs border border-white/[0.08]'
-                        : 'text-[#A1A1AA] hover:text-[#EDEDED]'
+                        ? 'bg-[#FAFAF9] text-[#6366F1] shadow-xs border border-[#E5E5E5]'
+                        : 'text-[#6B6B6B] hover:text-[#0A0A0A]'
                     }`}
                   >
                     {client === 'antigravity' ? 'Antigravity CLI' : client}
@@ -1394,14 +1394,14 @@ export const DocsPage: React.FC = () => {
               </div>
             </div>
 
-            <Card className="p-6 bg-[#141416] border border-white/[0.08] border-white/[0.08] space-y-4">
+            <Card className="p-6 bg-white border border-[#E5E5E5] border-[#E5E5E5] space-y-4">
               {/* OS File Path Box */}
-              <div className="p-3.5 rounded-xl bg-[#141416] border border-white/[0.08] space-y-2 text-xs">
-                <span className="font-bold text-[#EDEDED] uppercase text-[11px] tracking-wider block">
+              <div className="p-3.5 rounded-xl bg-white border border-[#E5E5E5] space-y-2 text-xs">
+                <span className="font-bold text-[#0A0A0A] uppercase text-[11px] tracking-wider block">
                   Configuration File Locations by Operating System:
                 </span>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-2 font-mono text-[11px] text-[#A1A1AA]">
-                  <div className="p-2 rounded-lg bg-[#18181B] border border-white/[0.08]">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-2 font-mono text-[11px] text-[#6B6B6B]">
+                  <div className="p-2 rounded-lg bg-[#FAFAF9] border border-[#E5E5E5]">
                     <span className="text-[#737373] font-bold block mb-0.5">macOS:</span>
                     <span className="truncate block">
                       {mcpClient === 'claude' && '~/Library/Application Support/Claude/claude_desktop_config.json'}
@@ -1410,7 +1410,7 @@ export const DocsPage: React.FC = () => {
                       {mcpClient === 'windsurf' && '~/.codeium/windsurf/mcp_config.json'}
                     </span>
                   </div>
-                  <div className="p-2 rounded-lg bg-[#18181B] border border-white/[0.08]">
+                  <div className="p-2 rounded-lg bg-[#FAFAF9] border border-[#E5E5E5]">
                     <span className="text-[#737373] font-bold block mb-0.5">Windows:</span>
                     <span className="truncate block">
                       {mcpClient === 'claude' && '%APPDATA%\\Claude\\claude_desktop_config.json'}
@@ -1419,7 +1419,7 @@ export const DocsPage: React.FC = () => {
                       {mcpClient === 'windsurf' && '%USERPROFILE%\\.codeium\\windsurf\\mcp_config.json'}
                     </span>
                   </div>
-                  <div className="p-2 rounded-lg bg-[#18181B] border border-white/[0.08]">
+                  <div className="p-2 rounded-lg bg-[#FAFAF9] border border-[#E5E5E5]">
                     <span className="text-[#737373] font-bold block mb-0.5">Linux:</span>
                     <span className="truncate block">
                       {mcpClient === 'claude' && '~/.config/Claude/claude_desktop_config.json'}
@@ -1433,8 +1433,8 @@ export const DocsPage: React.FC = () => {
 
               {/* Code Box with Copy Action */}
               <div className="space-y-2">
-                <div className="flex items-center justify-between text-xs text-[#A1A1AA] font-mono">
-                  <span className="font-bold text-[#EDEDED]">JSON Configuration:</span>
+                <div className="flex items-center justify-between text-xs text-[#6B6B6B] font-mono">
+                  <span className="font-bold text-[#0A0A0A]">JSON Configuration:</span>
                   <button
                     onClick={() => copyToClipboard(mcpConfigs[mcpClient], `mcp-${mcpClient}`)}
                     className="inline-flex items-center gap-1.5 font-bold text-[#6366F1] hover:underline cursor-pointer"
@@ -1462,13 +1462,13 @@ export const DocsPage: React.FC = () => {
 
               {/* Environment Variables Reference Table */}
               <div className="space-y-2 pt-2">
-                <span className="text-xs font-bold text-[#EDEDED] uppercase tracking-wider block">
+                <span className="text-xs font-bold text-[#0A0A0A] uppercase tracking-wider block">
                   Environment Variables Reference:
                 </span>
-                <div className="overflow-x-auto rounded-xl border border-white/[0.08] bg-[#18181B]">
+                <div className="overflow-x-auto rounded-xl border border-[#E5E5E5] bg-[#FAFAF9]">
                   <table className="w-full text-left border-collapse text-xs">
                     <thead>
-                      <tr className="bg-[#141416] border-b border-white/[0.08] text-[#A1A1AA] font-mono text-[11px] font-bold">
+                      <tr className="bg-white border-b border-[#E5E5E5] text-[#6B6B6B] font-mono text-[11px] font-bold">
                         <th className="p-3">Variable</th>
                         <th className="p-3">Type</th>
                         <th className="p-3">Default / Required</th>
@@ -1478,27 +1478,27 @@ export const DocsPage: React.FC = () => {
                     <tbody className="divide-y divide-[#0E0E0E] font-mono text-[11px]">
                       <tr>
                         <td className="p-3 font-bold text-[#6366F1]">HORIZON_API_URL</td>
-                        <td className="p-3 text-[#A1A1AA]">URL</td>
+                        <td className="p-3 text-[#6B6B6B]">URL</td>
                         <td className="p-3 text-emerald-300 font-bold">Required</td>
-                        <td className="p-3 font-sans text-[#EDEDED]">Production Horizon orchestrator endpoint or local daemon URL.</td>
+                        <td className="p-3 font-sans text-[#0A0A0A]">Production Horizon orchestrator endpoint or local daemon URL.</td>
                       </tr>
                       <tr>
                         <td className="p-3 font-bold text-[#6366F1]">MST_CHAIN_ID</td>
-                        <td className="p-3 text-[#A1A1AA]">Number</td>
+                        <td className="p-3 text-[#6B6B6B]">Number</td>
                         <td className="p-3">91562037</td>
-                        <td className="p-3 font-sans text-[#EDEDED]">MST Blockchain Testnet EVM Chain identifier for EIP-712 signing.</td>
+                        <td className="p-3 font-sans text-[#0A0A0A]">MST Blockchain Testnet EVM Chain identifier for EIP-712 signing.</td>
                       </tr>
                       <tr>
                         <td className="p-3 font-bold text-[#6366F1]">MST_RPC_URL</td>
-                        <td className="p-3 text-[#A1A1AA]">URL</td>
+                        <td className="p-3 text-[#6B6B6B]">URL</td>
                         <td className="p-3">https://testnet.mstscan.com/rpc</td>
-                        <td className="p-3 font-sans text-[#EDEDED]">JSON-RPC node for blockchain Merkle root query and smart contract state.</td>
+                        <td className="p-3 font-sans text-[#0A0A0A]">JSON-RPC node for blockchain Merkle root query and smart contract state.</td>
                       </tr>
                       <tr>
                         <td className="p-3 font-bold text-[#6366F1]">SARVAM_AGENT_ENABLED</td>
-                        <td className="p-3 text-[#A1A1AA]">Boolean</td>
+                        <td className="p-3 text-[#6B6B6B]">Boolean</td>
                         <td className="p-3">true</td>
-                        <td className="p-3 font-sans text-[#EDEDED]">Enables native Sarvam-105b LLM integration for automated SRE synthesis.</td>
+                        <td className="p-3 font-sans text-[#0A0A0A]">Enables native Sarvam-105b LLM integration for automated SRE synthesis.</td>
                       </tr>
                     </tbody>
                   </table>
@@ -1510,11 +1510,11 @@ export const DocsPage: React.FC = () => {
           {/* Section 3: MDN Web Docs Exhaustive Tool Specifications */}
           <section id="tool-specifications" className="space-y-6">
             <div>
-              <h2 className="text-xl font-black text-[#EDEDED] flex items-center gap-2">
+              <h2 className="text-xl font-black text-[#0A0A0A] flex items-center gap-2">
                 <Hash className="w-5 h-5 text-[#6366F1]" />
                 <span>Tool Catalogue & Formal Specifications</span>
               </h2>
-              <p className="text-xs sm:text-sm text-[#A1A1AA] font-medium">
+              <p className="text-xs sm:text-sm text-[#6B6B6B] font-medium">
                 Detailed MDN Web Docs style reference for each of the 6 registered Horizon MCP tools.
                 Click on any tool below to inspect parameters, return types, error conditions, and wire payloads.
               </p>
@@ -1529,7 +1529,7 @@ export const DocsPage: React.FC = () => {
                   className={`px-3.5 py-2 rounded-xl text-xs font-mono font-bold transition-all cursor-pointer flex items-center gap-2 ${
                     selectedToolIndex === idx
                       ? 'bg-[#6366F1] text-white shadow-sm border border-[#6366F1]'
-                      : 'bg-[#141416] text-[#A1A1AA] hover:text-[#EDEDED] hover:bg-[#18181B] border border-white/[0.08]'
+                      : 'bg-white text-[#6B6B6B] hover:text-[#0A0A0A] hover:bg-[#FAFAF9] border border-[#E5E5E5]'
                   }`}
                 >
                   <Workflow className="w-3.5 h-3.5" />
@@ -1539,9 +1539,9 @@ export const DocsPage: React.FC = () => {
             </div>
 
             {/* Active Selected Tool Deep Specification Card */}
-            <Card className="p-6 sm:p-8 bg-[#141416] border border-white/[0.08] border-white/[0.08] space-y-6">
+            <Card className="p-6 sm:p-8 bg-white border border-[#E5E5E5] border-[#E5E5E5] space-y-6">
               {/* Header & Badges */}
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-white/[0.08]">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#E5E5E5]">
                 <div className="space-y-1">
                   <div className="flex items-center gap-2.5">
                     <h3 className="text-xl font-black font-mono text-[#6366F1]">{selectedTool.name}</h3>
@@ -1549,7 +1549,7 @@ export const DocsPage: React.FC = () => {
                       RFC-MCP ACTIVE
                     </Badge>
                   </div>
-                  <p className="text-xs text-[#A1A1AA] font-medium">{selectedTool.summary}</p>
+                  <p className="text-xs text-[#6B6B6B] font-medium">{selectedTool.summary}</p>
                 </div>
 
                 <div className="flex items-center gap-2 flex-wrap">
@@ -1557,7 +1557,7 @@ export const DocsPage: React.FC = () => {
                     href="https://horizon-mcp-server-phf8.onrender.com/health"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#141416] text-[#6366F1] border border-white/[0.08] hover:bg-[#6366F1] hover:text-white transition-all text-xs font-bold cursor-pointer group shadow-xs"
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white text-[#6366F1] border border-[#E5E5E5] hover:bg-[#6366F1] hover:text-white transition-all text-xs font-bold cursor-pointer group shadow-xs"
                     title="Check live API endpoint on Render"
                   >
                     <ExternalLink className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
@@ -1572,27 +1572,27 @@ export const DocsPage: React.FC = () => {
 
               {/* Formal Syntax Box */}
               <div className="space-y-2">
-                <span className="text-xs font-bold text-[#EDEDED] uppercase tracking-wider block">Syntax:</span>
-                <div className="p-3.5 rounded-xl bg-[#141416] border border-white/[0.08] font-mono text-xs text-[#EDEDED] overflow-x-auto">
+                <span className="text-xs font-bold text-[#0A0A0A] uppercase tracking-wider block">Syntax:</span>
+                <div className="p-3.5 rounded-xl bg-white border border-[#E5E5E5] font-mono text-xs text-[#0A0A0A] overflow-x-auto">
                   <code>{selectedTool.signature}</code>
                 </div>
               </div>
 
               {/* Description */}
               <div className="space-y-2">
-                <span className="text-xs font-bold text-[#EDEDED] uppercase tracking-wider block">Description:</span>
-                <p className="text-xs sm:text-sm text-[#A1A1AA] leading-relaxed font-medium">
+                <span className="text-xs font-bold text-[#0A0A0A] uppercase tracking-wider block">Description:</span>
+                <p className="text-xs sm:text-sm text-[#6B6B6B] leading-relaxed font-medium">
                   {selectedTool.description}
                 </p>
               </div>
 
               {/* Parameters Table (MDN Format) */}
               <div className="space-y-2">
-                <span className="text-xs font-bold text-[#EDEDED] uppercase tracking-wider block">Parameters:</span>
-                <div className="overflow-x-auto rounded-xl border border-white/[0.08] bg-[#18181B]">
+                <span className="text-xs font-bold text-[#0A0A0A] uppercase tracking-wider block">Parameters:</span>
+                <div className="overflow-x-auto rounded-xl border border-[#E5E5E5] bg-[#FAFAF9]">
                   <table className="w-full text-left border-collapse text-xs">
                     <thead>
-                      <tr className="bg-[#141416] border-b border-white/[0.08] text-[#A1A1AA] font-mono text-[11px] font-bold">
+                      <tr className="bg-white border-b border-[#E5E5E5] text-[#6B6B6B] font-mono text-[11px] font-bold">
                         <th className="p-3">Parameter</th>
                         <th className="p-3">Type</th>
                         <th className="p-3">Required</th>
@@ -1604,7 +1604,7 @@ export const DocsPage: React.FC = () => {
                       {selectedTool.paramsList.map((param) => (
                         <tr key={param.name} className="hover:bg-[#FFFFFF] transition-colors">
                           <td className="p-3 font-bold text-[#6366F1]">{param.name}</td>
-                          <td className="p-3 text-[#A1A1AA]">{param.type}</td>
+                          <td className="p-3 text-[#6B6B6B]">{param.type}</td>
                           <td className="p-3">
                             {param.required ? (
                               <span className="px-2 py-0.5 rounded bg-rose-50 text-rose-700 font-bold border border-rose-200">
@@ -1616,8 +1616,8 @@ export const DocsPage: React.FC = () => {
                               </span>
                             )}
                           </td>
-                          <td className="p-3 text-[#A1A1AA]">{param.defaultVal}</td>
-                          <td className="p-3 font-sans text-[#EDEDED] leading-relaxed">{param.description}</td>
+                          <td className="p-3 text-[#6B6B6B]">{param.defaultVal}</td>
+                          <td className="p-3 font-sans text-[#0A0A0A] leading-relaxed">{param.description}</td>
                         </tr>
                       ))}
                     </tbody>
@@ -1627,15 +1627,15 @@ export const DocsPage: React.FC = () => {
 
               {/* Return Value Specification */}
               <div className="space-y-2">
-                <span className="text-xs font-bold text-[#EDEDED] uppercase tracking-wider block">Return Value:</span>
-                <div className="p-3.5 rounded-xl bg-[#18181B] border border-white/[0.08] text-xs font-medium text-[#A1A1AA] leading-relaxed">
+                <span className="text-xs font-bold text-[#0A0A0A] uppercase tracking-wider block">Return Value:</span>
+                <div className="p-3.5 rounded-xl bg-[#FAFAF9] border border-[#E5E5E5] text-xs font-medium text-[#6B6B6B] leading-relaxed">
                   {selectedTool.returnsDoc}
                 </div>
               </div>
 
               {/* Error Conditions */}
               <div className="space-y-2">
-                <span className="text-xs font-bold text-[#EDEDED] uppercase tracking-wider block">Possible Errors:</span>
+                <span className="text-xs font-bold text-[#0A0A0A] uppercase tracking-wider block">Possible Errors:</span>
                 <div className="flex flex-wrap gap-2">
                   {selectedTool.errorCodes.map((err) => (
                     <span
@@ -1654,22 +1654,22 @@ export const DocsPage: React.FC = () => {
           <section id="wire-inspector" className="space-y-4">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
               <div>
-                <h2 className="text-xl font-black text-[#EDEDED] flex items-center gap-2">
+                <h2 className="text-xl font-black text-[#0A0A0A] flex items-center gap-2">
                   <Hash className="w-5 h-5 text-[#6366F1]" />
                   <span>JSON-RPC 2.0 Wire Protocol Inspector</span>
                 </h2>
-                <p className="text-xs sm:text-sm text-[#A1A1AA] font-medium">
+                <p className="text-xs sm:text-sm text-[#6B6B6B] font-medium">
                   Inspect the exact wire payloads transmitted between your AI Agent and the Horizon MCP Server for <span className="font-mono font-bold text-[#6366F1]">{selectedTool.name}</span>.
                 </p>
               </div>
 
-              <div className="flex items-center gap-2 p-1 rounded-xl bg-[#141416] border border-white/[0.08]">
+              <div className="flex items-center gap-2 p-1 rounded-xl bg-white border border-[#E5E5E5]">
                 <button
                   onClick={() => setPayloadView('request')}
                   className={`px-3 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
                     payloadView === 'request'
-                      ? 'bg-[#18181B] text-[#6366F1] shadow-xs border border-white/[0.08]'
-                      : 'text-[#A1A1AA] hover:text-[#EDEDED]'
+                      ? 'bg-[#FAFAF9] text-[#6366F1] shadow-xs border border-[#E5E5E5]'
+                      : 'text-[#6B6B6B] hover:text-[#0A0A0A]'
                   }`}
                 >
                   Request (tools/call)
@@ -1678,8 +1678,8 @@ export const DocsPage: React.FC = () => {
                   onClick={() => setPayloadView('response')}
                   className={`px-3 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
                     payloadView === 'response'
-                      ? 'bg-[#18181B] text-[#6366F1] shadow-xs border border-white/[0.08]'
-                      : 'text-[#A1A1AA] hover:text-[#EDEDED]'
+                      ? 'bg-[#FAFAF9] text-[#6366F1] shadow-xs border border-[#E5E5E5]'
+                      : 'text-[#6B6B6B] hover:text-[#0A0A0A]'
                   }`}
                 >
                   Response (200 OK)
@@ -1687,8 +1687,8 @@ export const DocsPage: React.FC = () => {
               </div>
             </div>
 
-            <Card className="p-5 bg-[#141416] border border-white/[0.08] border-white/[0.08] space-y-3">
-              <div className="flex items-center justify-between text-xs text-[#A1A1AA] font-mono">
+            <Card className="p-5 bg-white border border-[#E5E5E5] border-[#E5E5E5] space-y-3">
+              <div className="flex items-center justify-between text-xs text-[#6B6B6B] font-mono">
                 <span>
                   {payloadView === 'request'
                     ? `JSON-RPC 2.0 Request Payload: ${selectedTool.name}`
@@ -1741,19 +1741,19 @@ export const DocsPage: React.FC = () => {
           {/* Section 5: Standard JSON-RPC & Domain Error Codes Table */}
           <section id="error-codes" className="space-y-4">
             <div>
-              <h2 className="text-xl font-black text-[#EDEDED] flex items-center gap-2">
+              <h2 className="text-xl font-black text-[#0A0A0A] flex items-center gap-2">
                 <Hash className="w-5 h-5 text-[#6366F1]" />
                 <span>Error Code Reference (MDN Format)</span>
               </h2>
-              <p className="text-xs sm:text-sm text-[#A1A1AA] font-medium">
+              <p className="text-xs sm:text-sm text-[#6B6B6B] font-medium">
                 Standard JSON-RPC 2.0 specification errors alongside Horizon domain exceptions, failure causes, and agent remediation workflows.
               </p>
             </div>
 
-            <div className="overflow-x-auto rounded-xl border border-white/[0.08] bg-[#18181B] shadow-xs">
+            <div className="overflow-x-auto rounded-xl border border-[#E5E5E5] bg-[#FAFAF9] shadow-xs">
               <table className="w-full text-left border-collapse text-xs">
                 <thead>
-                  <tr className="bg-[#141416] border-b border-white/[0.08] text-[#A1A1AA] uppercase font-mono tracking-wider text-[11px] font-bold">
+                  <tr className="bg-white border-b border-[#E5E5E5] text-[#6B6B6B] uppercase font-mono tracking-wider text-[11px] font-bold">
                     <th className="p-3.5">Code</th>
                     <th className="p-3.5">Error Name</th>
                     <th className="p-3.5">Category</th>
@@ -1769,13 +1769,13 @@ export const DocsPage: React.FC = () => {
                           {err.code}
                         </span>
                       </td>
-                      <td className="p-3.5 font-bold text-[#EDEDED] whitespace-nowrap">{err.name}</td>
-                      <td className="p-3.5 text-[#A1A1AA] whitespace-nowrap">
-                        <span className="px-2 py-0.5 rounded bg-[#141416] border border-white/[0.08]">
+                      <td className="p-3.5 font-bold text-[#0A0A0A] whitespace-nowrap">{err.name}</td>
+                      <td className="p-3.5 text-[#6B6B6B] whitespace-nowrap">
+                        <span className="px-2 py-0.5 rounded bg-white border border-[#E5E5E5]">
                           {err.category}
                         </span>
                       </td>
-                      <td className="p-3.5 font-sans font-medium text-[#A1A1AA] max-w-sm leading-relaxed">
+                      <td className="p-3.5 font-sans font-medium text-[#6B6B6B] max-w-sm leading-relaxed">
                         {err.description}
                       </td>
                       <td className="p-3.5 font-sans font-medium text-emerald-300 max-w-xs leading-relaxed">
@@ -1791,19 +1791,19 @@ export const DocsPage: React.FC = () => {
           {/* Section 6: Client Compatibility Matrix */}
           <section id="compatibility" className="space-y-4">
             <div>
-              <h2 className="text-xl font-black text-[#EDEDED] flex items-center gap-2">
+              <h2 className="text-xl font-black text-[#0A0A0A] flex items-center gap-2">
                 <Hash className="w-5 h-5 text-[#6366F1]" />
                 <span>Client & Runtime Compatibility Matrix</span>
               </h2>
-              <p className="text-xs sm:text-sm text-[#A1A1AA] font-medium">
+              <p className="text-xs sm:text-sm text-[#6B6B6B] font-medium">
                 Tested compatibility across AI desktop clients, CLI runtimes, IDE extensions, and Web3 consensus features.
               </p>
             </div>
 
-            <div className="overflow-x-auto rounded-xl border border-white/[0.08] bg-[#18181B] shadow-xs">
+            <div className="overflow-x-auto rounded-xl border border-[#E5E5E5] bg-[#FAFAF9] shadow-xs">
               <table className="w-full text-left border-collapse text-xs">
                 <thead>
-                  <tr className="bg-[#141416] border-b border-white/[0.08] text-[#A1A1AA] uppercase font-mono tracking-wider text-[11px] font-bold">
+                  <tr className="bg-white border-b border-[#E5E5E5] text-[#6B6B6B] uppercase font-mono tracking-wider text-[11px] font-bold">
                     <th className="p-3.5">Client / Agent</th>
                     <th className="p-3.5">Min Version</th>
                     <th className="p-3.5">Transport</th>
@@ -1816,12 +1816,12 @@ export const DocsPage: React.FC = () => {
                 <tbody className="divide-y divide-[#0E0E0E] font-mono text-[11px]">
                   {compatibilityMatrix.map((row) => (
                     <tr key={row.client} className="hover:bg-[#FFFFFF] transition-colors">
-                      <td className="p-3.5 font-bold text-[#EDEDED] whitespace-nowrap">{row.client}</td>
-                      <td className="p-3.5 text-[#A1A1AA] whitespace-nowrap">{row.minVersion}</td>
+                      <td className="p-3.5 font-bold text-[#0A0A0A] whitespace-nowrap">{row.client}</td>
+                      <td className="p-3.5 text-[#6B6B6B] whitespace-nowrap">{row.minVersion}</td>
                       <td className="p-3.5 text-[#6366F1] font-bold whitespace-nowrap">{row.transport}</td>
                       <td className="p-3.5 text-emerald-700 font-semibold whitespace-nowrap">{row.toolsList}</td>
                       <td className="p-3.5 text-emerald-700 font-semibold whitespace-nowrap">{row.toolsCall}</td>
-                      <td className="p-3.5 text-[#EDEDED] whitespace-nowrap">{row.web3Gating}</td>
+                      <td className="p-3.5 text-[#0A0A0A] whitespace-nowrap">{row.web3Gating}</td>
                       <td className="p-3.5 whitespace-nowrap">
                         <span className="px-2 py-0.5 rounded bg-indigo-950/40 text-[#6366F1] font-bold border border-indigo-700">
                           {row.status}
@@ -1839,18 +1839,18 @@ export const DocsPage: React.FC = () => {
       {/* Tab 2: Slash (/) Commands */}
       {activeTab === 'slash' && (
         <div className="space-y-6">
-          <Card className="p-6 bg-[#141416] border border-white/[0.08] border-white/[0.08] space-y-4">
+          <Card className="p-6 bg-white border border-[#E5E5E5] border-[#E5E5E5] space-y-4">
             <div>
-              <h3 className="text-base font-bold text-[#EDEDED]">In-Chat & Copilot Slash Commands</h3>
-              <p className="text-xs text-[#A1A1AA] font-medium">
+              <h3 className="text-base font-bold text-[#0A0A0A]">In-Chat & Copilot Slash Commands</h3>
+              <p className="text-xs text-[#6B6B6B] font-medium">
                 Use slash commands directly in Sarvam AI Copilot or MCP-enabled IDEs (Cursor, Antigravity, Claude) to trigger SRE actions without clicking through the UI.
               </p>
             </div>
 
-            <div className="overflow-x-auto rounded-xl border border-white/[0.08] bg-[#18181B] shadow-xs">
+            <div className="overflow-x-auto rounded-xl border border-[#E5E5E5] bg-[#FAFAF9] shadow-xs">
               <table className="w-full text-left border-collapse text-xs">
                 <thead>
-                  <tr className="bg-[#141416] border-b border-white/[0.08] text-[#A1A1AA] uppercase font-mono tracking-wider text-[11px] font-bold">
+                  <tr className="bg-white border-b border-[#E5E5E5] text-[#6B6B6B] uppercase font-mono tracking-wider text-[11px] font-bold">
                     <th className="p-3.5">Command</th>
                     <th className="p-3.5">Arguments</th>
                     <th className="p-3.5">Purpose & Action</th>
@@ -1866,10 +1866,10 @@ export const DocsPage: React.FC = () => {
                           {sc.cmd}
                         </span>
                       </td>
-                      <td className="p-3.5 text-[#A1A1AA] whitespace-nowrap font-medium">
+                      <td className="p-3.5 text-[#6B6B6B] whitespace-nowrap font-medium">
                         {sc.args || '—'}
                       </td>
-                      <td className="p-3.5 font-sans font-medium text-[#EDEDED] max-w-xs leading-relaxed">
+                      <td className="p-3.5 font-sans font-medium text-[#0A0A0A] max-w-xs leading-relaxed">
                         {sc.desc}
                       </td>
                       <td className="p-3.5 text-emerald-300 font-semibold whitespace-nowrap">
@@ -1878,7 +1878,7 @@ export const DocsPage: React.FC = () => {
                       <td className="p-3.5 whitespace-nowrap">
                         <button
                           onClick={() => copyToClipboard(sc.example, sc.cmd)}
-                          className="p-1.5 rounded-lg bg-[#141416] hover:bg-[#18181B] border border-white/[0.08] text-[#6366F1] transition-colors cursor-pointer"
+                          className="p-1.5 rounded-lg bg-white hover:bg-[#FAFAF9] border border-[#E5E5E5] text-[#6366F1] transition-colors cursor-pointer"
                           title="Copy example"
                         >
                           {copiedKey === sc.cmd ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
@@ -1896,11 +1896,11 @@ export const DocsPage: React.FC = () => {
       {/* Tab 3: CLI Reference */}
       {activeTab === 'cli' && (
         <div className="space-y-6">
-          <Card className="p-6 bg-[#141416] border border-white/[0.08] border-white/[0.08] space-y-4">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-white/[0.08] gap-3">
+          <Card className="p-6 bg-white border border-[#E5E5E5] border-[#E5E5E5] space-y-4">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-[#E5E5E5] gap-3">
               <div>
-                <h3 className="text-base font-bold text-[#EDEDED]">Horizon CLI Reference (@horizon/cli)</h3>
-                <p className="text-xs text-[#A1A1AA] font-medium">
+                <h3 className="text-base font-bold text-[#0A0A0A]">Horizon CLI Reference (@horizon/cli)</h3>
+                <p className="text-xs text-[#6B6B6B] font-medium">
                   Autonomous SRE command line interface for headless orchestration, CI/CD pipeline verification, and local daemon bridge.
                 </p>
               </div>
@@ -1914,14 +1914,14 @@ export const DocsPage: React.FC = () => {
               {cliCommands.map((cli) => (
                 <div
                   key={cli.cmd}
-                  className="p-4 rounded-xl bg-[#050505] border border-white/[0.08] border-white/[0.08] flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs"
+                  className="p-4 rounded-xl bg-[#050505] border border-[#E5E5E5] border-[#E5E5E5] flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs"
                 >
                   <div className="space-y-1">
                     <div className="flex items-center gap-2 font-mono">
-                      <span className="font-bold text-[#EDEDED] text-sm">{cli.cmd}</span>
+                      <span className="font-bold text-[#0A0A0A] text-sm">{cli.cmd}</span>
                       <span className="text-[#737373]">{cli.options}</span>
                     </div>
-                    <p className="text-[#A1A1AA] font-medium">{cli.desc}</p>
+                    <p className="text-[#6B6B6B] font-medium">{cli.desc}</p>
                   </div>
 
                   <button
@@ -1941,25 +1941,25 @@ export const DocsPage: React.FC = () => {
       {/* Tab 4: REST & Edge API */}
       {activeTab === 'api' && (
         <div className="space-y-6">
-          <Card className="p-6 bg-[#141416] border border-white/[0.08] border-white/[0.08] space-y-5">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-white/[0.08] gap-3">
+          <Card className="p-6 bg-white border border-[#E5E5E5] border-[#E5E5E5] space-y-5">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-[#E5E5E5] gap-3">
               <div>
-                <h3 className="text-base font-bold text-[#EDEDED]">REST & Serverless Edge API Specification</h3>
-                <p className="text-xs text-[#A1A1AA] font-medium">
+                <h3 className="text-base font-bold text-[#0A0A0A]">REST & Serverless Edge API Specification</h3>
+                <p className="text-xs text-[#6B6B6B] font-medium">
                   Hono-powered Edge routes deployed on Vercel Functions with sub-millisecond execution.
                 </p>
               </div>
 
               {/* Language code snippet switcher */}
-              <div className="flex items-center gap-1.5 p-1 rounded-xl bg-[#141416] border border-white/[0.08]">
+              <div className="flex items-center gap-1.5 p-1 rounded-xl bg-white border border-[#E5E5E5]">
                 {(['curl', 'ts', 'python'] as const).map((lang) => (
                   <button
                     key={lang}
                     onClick={() => setApiLang(lang)}
                     className={`px-3 py-1 rounded-lg text-xs font-bold transition-all uppercase cursor-pointer ${
                       apiLang === lang
-                        ? 'bg-[#18181B] text-[#6366F1] shadow-xs border border-white/[0.08]'
-                        : 'text-[#A1A1AA] hover:text-[#EDEDED]'
+                        ? 'bg-[#FAFAF9] text-[#6366F1] shadow-xs border border-[#E5E5E5]'
+                        : 'text-[#6B6B6B] hover:text-[#0A0A0A]'
                     }`}
                   >
                     {lang}
@@ -1970,8 +1970,8 @@ export const DocsPage: React.FC = () => {
 
             <div className="space-y-4">
               {apiEndpoints.map((ep) => (
-                <div key={ep.path} className="p-4 rounded-2xl bg-[#18181B] border border-white/[0.08] shadow-xs space-y-3">
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-2 border-b border-white/[0.08] gap-2">
+                <div key={ep.path} className="p-4 rounded-2xl bg-[#FAFAF9] border border-[#E5E5E5] shadow-xs space-y-3">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-2 border-b border-[#E5E5E5] gap-2">
                     <div className="flex items-center gap-2.5 font-mono text-xs flex-wrap">
                       <span
                         className={`px-2 py-0.5 rounded font-black ${
@@ -1982,9 +1982,9 @@ export const DocsPage: React.FC = () => {
                       >
                         {ep.method}
                       </span>
-                      <span className="font-bold text-[#EDEDED]">{ep.path}</span>
+                      <span className="font-bold text-[#0A0A0A]">{ep.path}</span>
                       {ep.category && (
-                        <span className="text-[10px] uppercase font-bold text-[#737373] px-2 py-0.5 rounded bg-[#141416] border border-white/[0.08]">
+                        <span className="text-[10px] uppercase font-bold text-[#737373] px-2 py-0.5 rounded bg-white border border-[#E5E5E5]">
                           {ep.category}
                         </span>
                       )}
@@ -2007,7 +2007,7 @@ export const DocsPage: React.FC = () => {
                       <button
                         onClick={() => handleProbeLiveApi(ep.path, ep.liveUrl)}
                         disabled={probeResults[ep.path]?.loading}
-                        className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl text-xs font-bold bg-[#141416] text-[#A1A1AA] hover:text-[#EDEDED] border border-white/[0.08] hover:bg-[#18181B] transition-all cursor-pointer shrink-0 disabled:opacity-50"
+                        className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl text-xs font-bold bg-white text-[#6B6B6B] hover:text-[#0A0A0A] border border-[#E5E5E5] hover:bg-[#FAFAF9] transition-all cursor-pointer shrink-0 disabled:opacity-50"
                         title="Probe live status and latency"
                       >
                         <Zap className={`w-3.5 h-3.5 text-amber-600 ${probeResults[ep.path]?.loading ? 'animate-pulse' : ''}`} />
@@ -2017,7 +2017,7 @@ export const DocsPage: React.FC = () => {
                       {/* Copy URL */}
                       <button
                         onClick={() => copyToClipboard(ep.liveUrl, ep.path)}
-                        className="text-xs text-[#A1A1AA] hover:text-[#6366F1] font-bold hover:underline flex items-center gap-1 shrink-0 ml-1"
+                        className="text-xs text-[#6B6B6B] hover:text-[#6366F1] font-bold hover:underline flex items-center gap-1 shrink-0 ml-1"
                         title="Copy Live Endpoint URL"
                       >
                         {copiedKey === ep.path ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
@@ -2053,12 +2053,12 @@ export const DocsPage: React.FC = () => {
                         </pre>
                       )}
                       {probeResults[ep.path].error && (
-                        <p className="text-amber-300 text-[10px]">{probeResults[ep.path].error}</p>
+                        <p className="text-amber-900 text-[10px]">{probeResults[ep.path].error}</p>
                       )}
                     </div>
                   )}
 
-                  <p className="text-xs text-[#A1A1AA] font-medium">{ep.desc}</p>
+                  <p className="text-xs text-[#6B6B6B] font-medium">{ep.desc}</p>
 
                   {/* Code snippet display */}
                   <div className="p-3.5 rounded-xl bg-[#1A1A1A] border border-black text-[11px] font-mono text-cyan-300 overflow-x-auto shadow-inner">
@@ -2074,7 +2074,7 @@ export const DocsPage: React.FC = () => {
                   {/* Sample Response */}
                   <div className="space-y-1">
                     <span className="text-[10px] font-mono text-[#737373] font-bold uppercase">Sample Response 200 OK:</span>
-                    <div className="p-3 rounded-xl bg-[#050505] border border-white/[0.08] border-white/[0.08] text-[11px] font-mono text-[#EDEDED] overflow-x-auto">
+                    <div className="p-3 rounded-xl bg-[#050505] border border-[#E5E5E5] border-[#E5E5E5] text-[11px] font-mono text-[#0A0A0A] overflow-x-auto">
                       <pre>
                         <code>{ep.response}</code>
                       </pre>

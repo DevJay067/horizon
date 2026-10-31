@@ -3,7 +3,7 @@ import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
 
 // ─────────────────────────────────────────────────────────────
-// GLSL Vertex Shader — Fibonacci halftone point sizing + fake lighting
+// GLSL Shaders: Pure #0A0A0A halftone points with directional lighting
 // ─────────────────────────────────────────────────────────────
 const vertexShader = /* glsl */ `
   attribute float aLand;
@@ -11,93 +11,77 @@ const vertexShader = /* glsl */ `
   attribute float aOceanSpeck;
 
   varying float vAlpha;
-  varying float vLit;
+  varying float vFacing;
 
-  uniform float uTime;
   uniform float uDpr;
   uniform float uPointScale;
 
   void main() {
-    // Normal = unit position on sphere
+    // Normal is unit position on sphere
     vec3 N = normalize(position);
 
-    // Light from upper-left and slightly in front
-    vec3 lightDir = normalize(vec3(-0.55, 0.7, 0.65));
-    float lit = clamp(dot(N, lightDir), 0.0, 1.0);
+    // Camera view-space normal
+    vec3 worldNormal = normalize(normalMatrix * N);
 
-    // Fresnel limb darkening (facing toward camera)
+    // Directional light from upper-left and front in view space
+    vec3 viewLightDir = normalize(vec3(-0.45, 0.65, 0.65));
+    float lit = clamp(dot(worldNormal, viewLightDir), 0.0, 1.0);
+
+    // Fresnel limb / facing term toward camera
     vec4 mvPos = modelViewMatrix * vec4(position, 1.0);
     vec3 viewDir = normalize(-mvPos.xyz);
-    vec3 worldNormal = normalize(normalMatrix * N);
     float facing = clamp(dot(worldNormal, viewDir), 0.0, 1.0);
-
-    // Edge falloff
     float facingPow = pow(facing, 1.4);
 
-    // ────── Dot Size ──────
-    float base = uPointScale;
+    // ────── Point Size Formula ──────
+    // size = base * ( land * (0.45 + 0.9*lit) + coast * 0.9 ) * facing^1.4
     float size = 0.0;
-
     if (aLand > 0.5) {
-      // Land: medium to large dots, darkest near lit center
-      size = base * (0.45 + 0.9 * lit) * facingPow;
-      // Coast emphasis
-      size += base * aCoast * 0.9 * facingPow;
+      size = uPointScale * (aLand * (0.45 + 0.9 * lit) + aCoast * 1.1) * facingPow;
     } else if (aOceanSpeck > 0.5) {
-      // Sparse ocean specks for texture (~1.5% of ocean pts)
-      size = base * 0.18 * facingPow;
-    } else {
-      // Skip ocean entirely
-      size = 0.0;
+      // 1.5% sparse texture specks
+      size = uPointScale * 0.16 * facingPow;
     }
 
-    // ────── Alpha ──────
-    float alpha = 0.08 + 0.92 * pow(lit, 1.2);
-    alpha *= smoothstep(0.0, 0.15, facing); // fade at extreme edges
-
+    // ────── Alpha Formula ──────
+    // alpha = 0.08 + 0.92*lit^1.2, multiplied by edge fade
+    float alpha = (0.12 + 0.88 * pow(lit, 1.2)) * smoothstep(0.01, 0.15, facing);
     if (aOceanSpeck > 0.5) {
-      alpha = 0.08 + 0.12 * lit;
+      alpha = (0.06 + 0.14 * lit) * smoothstep(0.01, 0.15, facing);
     }
 
     vAlpha = alpha;
-    vLit = lit;
+    vFacing = facing;
 
     gl_Position = projectionMatrix * mvPos;
     gl_PointSize = size * uDpr;
 
-    // Clamp for GPU safety
-    if (size < 0.1) {
-      gl_Position = vec4(2.0, 2.0, 2.0, 1.0); // discard off-screen
+    // Discard tiny/invisible points behind or on limb
+    if (size < 0.1 || facing <= 0.005) {
+      gl_Position = vec4(2.0, 2.0, 2.0, 1.0);
       vAlpha = 0.0;
     }
   }
 `;
 
-// ─────────────────────────────────────────────────────────────
-// GLSL Fragment Shader — crisp circle with 1px smoothstep AA
-// ─────────────────────────────────────────────────────────────
 const fragmentShader = /* glsl */ `
   varying float vAlpha;
-  varying float vLit;
+  varying float vFacing;
 
   void main() {
-    vec2 cxy = gl_PointCoord - 0.5;
+    vec2 cxy = gl_PointCoord - vec2(0.5);
     float dist = length(cxy);
 
-    // Hard discard outside circle
+    // Crisp circular dots with 1px smoothstep AA
     if (dist > 0.5) discard;
-
-    // 1px smoothstep antialias
     float aa = 1.0 - smoothstep(0.42, 0.5, dist);
 
-    // Pure black dots
+    // Pure #0A0A0A black ink dots
     gl_FragColor = vec4(0.039, 0.039, 0.039, vAlpha * aa);
   }
 `;
 
-// ─────────────────────────────────────────────────────────────
-// Stray Dust Dots: ~600 tiny dots scattered outside the sphere limb
-// ─────────────────────────────────────────────────────────────
+// Stray dust dots drifting outside the sphere limb (~600 points)
 const dustVertexShader = /* glsl */ `
   attribute float aSize;
   varying float vDustAlpha;
@@ -105,37 +89,36 @@ const dustVertexShader = /* glsl */ `
   uniform float uDpr;
 
   void main() {
-    // Slowly drift
     vec3 pos = position;
-    pos.x += sin(uTime * 0.12 + position.y * 8.0) * 0.003;
-    pos.y += cos(uTime * 0.09 + position.x * 6.0) * 0.002;
+    pos.x += sin(uTime * 0.15 + position.y * 6.0) * 0.0035;
+    pos.y += cos(uTime * 0.11 + position.x * 5.0) * 0.0025;
 
     vec4 mvPos = modelViewMatrix * vec4(pos, 1.0);
     gl_Position = projectionMatrix * mvPos;
     gl_PointSize = aSize * uDpr;
-    vDustAlpha = 0.15;
+    vDustAlpha = 0.20;
   }
 `;
 
 const dustFragmentShader = /* glsl */ `
   varying float vDustAlpha;
   void main() {
-    vec2 cxy = gl_PointCoord - 0.5;
+    vec2 cxy = gl_PointCoord - vec2(0.5);
     if (length(cxy) > 0.5) discard;
-    float aa = 1.0 - smoothstep(0.4, 0.5, length(cxy));
+    float aa = 1.0 - smoothstep(0.38, 0.5, length(cxy));
     gl_FragColor = vec4(0.039, 0.039, 0.039, vDustAlpha * aa);
   }
 `;
 
 // ─────────────────────────────────────────────────────────────
-// Helpers: Fibonacci sphere + land mask rasterization
+// Land Mask & Coastline Generation (4096 x 2048 equirectangular)
 // ─────────────────────────────────────────────────────────────
 function pseudoRandom(seed: number): number {
   const s = Math.sin(seed * 12.9898 + 78.233) * 43758.5453;
   return s - Math.floor(s);
 }
 
-function createLandMask(width: number, height: number): { landData: Uint8Array; blurData: Uint8Array } {
+function createHighResLandMask(width: number, height: number): { landData: Uint8Array; blurData: Uint8Array } {
   const canvas = document.createElement('canvas');
   canvas.width = width;
   canvas.height = height;
@@ -159,9 +142,9 @@ function createLandMask(width: number, height: number): { landData: Uint8Array; 
     ctx.fill();
   }
 
-  // ─── High-Detail Continent Polygons ───
+  // ── High-Detail Continental Polygons (Centered on East Asia, Eurasia, Americas, Africa) ──
 
-  // East Asia / China / Mongolia / Siberia / Russia
+  // Eurasia (China, Mongolia, Siberia, Russia)
   drawPoly([
     [100, 75], [120, 74], [140, 72], [160, 70], [178, 65], [170, 60],
     [160, 52], [148, 48], [140, 48], [135, 46], [131, 43], [128, 42],
@@ -174,21 +157,20 @@ function createLandMask(width: number, height: number): { landData: Uint8Array; 
 
   // Japan — Hokkaido
   drawPoly([[139.5, 45.5], [141, 45.8], [145.5, 44], [145, 42.5], [143, 42], [141, 42.8], [140, 43.5]]);
-  // Japan — Honshu
+  // Japan — Honshu (Tokyo, Osaka, Kyoto, Tohoku)
   drawPoly([
     [141.5, 41.5], [142, 40], [141.5, 38.5], [141, 37], [140.5, 36],
     [139.7, 35.5], [138, 35], [136.5, 34.8], [135, 34.5], [133.5, 34.2],
     [132, 34], [131, 33.8], [131, 34.5], [132.5, 35.5], [134, 36],
     [136, 36.8], [138, 37.5], [139.5, 38.5], [140, 39.5], [140.8, 41],
   ]);
-  // Japan — Shikoku
+  // Japan — Shikoku & Kyushu
   drawPoly([[132.5, 34], [134.5, 34.2], [134.5, 33.3], [133, 33.2]]);
-  // Japan — Kyushu
   drawPoly([[129.5, 33.8], [131.5, 34], [132, 32.5], [131, 31], [130, 31.5]]);
-  // Japan — Okinawa arc
+  // Japan — Okinawa
   drawPoly([[127, 27], [128.5, 27.5], [128, 26], [126.5, 26.5]]);
 
-  // Korean Peninsula
+  // Korean Peninsula (Seoul, Busan, Pyongyang)
   drawPoly([
     [124.5, 40], [126, 41], [128, 42], [130, 42.5], [130.5, 39],
     [129.5, 36], [129, 35], [127.5, 34.5], [126, 34.5], [126, 37], [125, 38.5],
@@ -202,31 +184,27 @@ function createLandMask(width: number, height: number): { landData: Uint8Array; 
   drawPoly([[124, 14], [126, 12], [125, 9], [123, 10.5]]);
 
   // Kamchatka & Kuril Arc
-  drawPoly([
-    [156, 51.5], [158.5, 53.5], [162, 58], [163, 61.5],
-    [160, 59], [157, 55], [155, 52],
-  ]);
+  drawPoly([[156, 51.5], [158.5, 53.5], [162, 58], [163, 61.5], [160, 59], [157, 55], [155, 52]]);
 
-  // Southeast Asia mainland (Vietnam, Laos, Thailand, Myanmar, Malaysia)
+  // Southeast Asia (Vietnam, Laos, Thailand, Myanmar, Malaysia)
   drawPoly([
     [93, 28], [98, 26], [100, 20], [106, 17], [108, 16],
     [109, 12], [107, 9], [105, 8], [103, 6], [101, 3],
     [100, 6], [99, 10], [98, 14], [95, 18], [92, 22],
   ]);
 
-  // Indonesian archipelago (Sumatra, Borneo, Java, Sulawesi)
+  // Indonesia (Sumatra, Java, Borneo, Sulawesi)
   drawPoly([[95, 5], [98, 3], [105, -5], [106, -6], [104, -8], [97, -2], [95, 2]]);
   drawPoly([[109, 5], [115, 5], [118, 1], [117, -3], [114, -4], [110, 0]]);
   drawPoly([[105, -6], [114, -7], [114, -8.5], [106, -8]]);
   drawPoly([[119, -1], [122, 1], [125, -3], [121, -5], [119, -3]]);
 
-  // India & South Asia
+  // South Asia / India & Sri Lanka
   drawPoly([
     [68, 24], [72, 28], [76, 30], [80, 30], [85, 28], [88, 26],
     [88, 22], [85, 18], [82, 14], [80, 10], [78, 8], [76, 10],
     [74, 15], [72, 18], [70, 20],
   ]);
-  // Sri Lanka
   drawPoly([[79.5, 9], [81.5, 8.5], [82, 6.5], [80, 6]]);
 
   // Middle East & Arabia
@@ -235,7 +213,7 @@ function createLandMask(width: number, height: number): { landData: Uint8Array; 
     [56, 22], [52, 16], [48, 14], [44, 14], [42, 18], [38, 24], [36, 28],
   ]);
 
-  // Europe (mainland)
+  // Europe & Mediterranean
   drawPoly([
     [-10, 36], [-5, 43], [0, 44], [5, 44], [8, 46], [12, 46],
     [16, 42], [20, 40], [24, 41], [28, 42], [30, 45], [35, 48],
@@ -243,19 +221,13 @@ function createLandMask(width: number, height: number): { landData: Uint8Array; 
     [30, 71], [20, 70], [15, 68], [10, 65], [5, 62], [2, 55],
     [0, 50], [-3, 48], [-5, 44],
   ]);
-  // Iberian Peninsula
   drawPoly([[-9, 37], [-6, 37], [-2, 38], [0, 40], [-1, 43], [-5, 43], [-9, 42], [-10, 40]]);
-  // Italian Peninsula
   drawPoly([[8, 46], [12, 44], [16, 42], [16, 38], [12, 37], [10, 40], [8, 43]]);
-  // Scandinavia
   drawPoly([[5, 58], [10, 60], [15, 64], [20, 68], [28, 70], [25, 65], [18, 60], [12, 57], [8, 56]]);
-  // British Isles
   drawPoly([[-5, 50], [1, 52], [1, 56], [-2, 58], [-5, 58], [-6, 54]]);
   drawPoly([[-10, 51.5], [-6, 52], [-6, 55], [-10, 55]]);
-  // Iceland
-  drawPoly([[-24, 64], [-14, 66], [-13, 65], [-18, 63.5], [-22, 63.5]]);
 
-  // Africa
+  // Africa & Madagascar
   drawPoly([
     [-17, 15], [-15, 25], [-8, 32], [-5, 35], [0, 36], [10, 37],
     [12, 35], [25, 32], [33, 30], [42, 28], [50, 12], [48, 5],
@@ -263,10 +235,9 @@ function createLandMask(width: number, height: number): { landData: Uint8Array; 
     [22, -34], [18, -28], [15, -20], [12, -10], [10, -2],
     [8, 5], [4, 8], [0, 6], [-5, 5], [-10, 8], [-15, 10],
   ]);
-  // Madagascar
   drawPoly([[43, -12], [50, -15], [49, -22], [46, -25], [44, -22], [43, -16]]);
 
-  // North America (Alaska, Canada, Contiguous US, Mexico)
+  // North America
   drawPoly([
     [-170, 64], [-165, 68], [-155, 72], [-140, 72], [-120, 72],
     [-100, 75], [-90, 75], [-80, 72], [-65, 65], [-55, 52],
@@ -276,17 +247,7 @@ function createLandMask(width: number, height: number): { landData: Uint8Array; 
     [-124, 48], [-128, 52], [-135, 56], [-145, 60], [-155, 60],
     [-165, 62],
   ]);
-  // Greenland
-  drawPoly([
-    [-55, 60], [-45, 60], [-20, 70], [-18, 76], [-22, 82],
-    [-40, 83], [-55, 80], [-60, 75], [-55, 68],
-  ]);
-
-  // Central America & Caribbean
-  drawPoly([
-    [-88, 22], [-86, 18], [-84, 15], [-82, 10], [-80, 8], [-78, 8],
-    [-77, 9], [-79, 12], [-82, 15], [-85, 17], [-87, 20],
-  ]);
+  drawPoly([[-55, 60], [-45, 60], [-20, 70], [-18, 76], [-22, 82], [-40, 83], [-55, 80], [-60, 75], [-55, 68]]);
 
   // South America
   drawPoly([
@@ -296,56 +257,54 @@ function createLandMask(width: number, height: number): { landData: Uint8Array; 
     [-72, -52], [-75, -40], [-76, -28], [-78, -18], [-80, -5], [-80, 5],
   ]);
 
-  // Australia
+  // Australia & New Zealand
   drawPoly([
     [113, -22], [120, -16], [130, -12], [136, -12], [142, -11],
     [148, -15], [152, -22], [153, -28], [151, -34], [145, -38],
     [138, -37], [132, -35], [126, -32], [120, -30], [115, -26],
   ]);
-  // New Zealand North
   drawPoly([[174, -36], [178, -37], [177, -41], [174, -39]]);
-  // New Zealand South
   drawPoly([[167, -44], [172, -42], [174, -44], [170, -47]]);
 
-  // Antarctica hint
-  drawPoly([
-    [-180, -70], [-90, -68], [0, -70], [90, -68], [180, -70],
-    [180, -90], [-180, -90],
-  ]);
-
-  // Get land data
-  const imageData = ctx.getImageData(0, 0, width, height);
+  // Land pixel data
+  const imgData = ctx.getImageData(0, 0, width, height).data;
   const landData = new Uint8Array(width * height);
   for (let i = 0; i < width * height; i++) {
-    landData[i] = imageData.data[i * 4]; // R channel
+    landData[i] = imgData[i * 4];
   }
 
-  // Generate blurred land for coast detection
+  // Precompute blurred edge map for COAST value calculation using hardware-accelerated canvas filter
+  const blurCanvas = document.createElement('canvas');
+  blurCanvas.width = width;
+  blurCanvas.height = height;
+  const blurCtx = blurCanvas.getContext('2d');
   const blurData = new Uint8Array(width * height);
-  const blurRadius = 4;
-  for (let y = 0; y < height; y++) {
-    for (let x = 0; x < width; x++) {
-      let sum = 0;
-      let count = 0;
-      for (let dy = -blurRadius; dy <= blurRadius; dy++) {
-        for (let dx = -blurRadius; dx <= blurRadius; dx++) {
-          const bx = (x + dx + width) % width;
-          const by = Math.max(0, Math.min(height - 1, y + dy));
-          sum += landData[by * width + bx];
-          count++;
-        }
-      }
-      blurData[y * width + x] = Math.round(sum / count);
+  if (blurCtx) {
+    blurCtx.filter = 'blur(4px)';
+    blurCtx.drawImage(canvas, 0, 0);
+    const blurImg = blurCtx.getImageData(0, 0, width, height).data;
+    for (let i = 0; i < width * height; i++) {
+      blurData[i] = blurImg[i * 4];
     }
   }
 
   return { landData, blurData };
 }
 
+// Module-level geometry caching to guarantee 0ms overhead on reloads/re-renders
+let cachedGlobeGeometry: THREE.BufferGeometry | null = null;
+let cachedDustGeometry: THREE.BufferGeometry | null = null;
+
 // ─────────────────────────────────────────────────────────────
-// Generate Fibonacci Sphere Points with land/coast attributes
+// Fibonacci Sphere Distribution (280k points, golden angle)
 // ─────────────────────────────────────────────────────────────
-function generateGlobePoints(numPoints: number, mapW: number, mapH: number, landData: Uint8Array, blurData: Uint8Array) {
+function generateFibonacciPoints(
+  numPoints: number,
+  mapW: number,
+  mapH: number,
+  landData: Uint8Array,
+  blurData: Uint8Array
+) {
   const GOLDEN_ANGLE = Math.PI * (3 - Math.sqrt(5));
   const positions = new Float32Array(numPoints * 3);
   const landAttr = new Float32Array(numPoints);
@@ -357,69 +316,72 @@ function generateGlobePoints(numPoints: number, mapW: number, mapH: number, land
     const radiusAtY = Math.sqrt(Math.max(0, 1 - y * y));
     const theta = GOLDEN_ANGLE * i;
 
-    // Tiny jitter for organic feel (0.2-0.5% of unit sphere radius)
+    // Organic tiny jitter
     const jitter = 0.002 + pseudoRandom(i * 7 + 3) * 0.003;
     const jAngle = pseudoRandom(i * 7 + 5) * Math.PI * 2;
     const jPhi = pseudoRandom(i * 7 + 7) * Math.PI * 2;
 
-    const x = Math.cos(theta) * radiusAtY + Math.cos(jAngle) * jitter;
-    const z = Math.sin(theta) * radiusAtY + Math.sin(jPhi) * jitter;
+    // Standard spherical coordinates
+    // lon = angle in horizontal plane, lat = asin(y)
+    const lon = ((theta % (2 * Math.PI)) + 2 * Math.PI) % (2 * Math.PI) - Math.PI;
+    const lat = Math.asin(y);
+
+    const x = radiusAtY * Math.sin(lon) + Math.cos(jAngle) * jitter;
+    const z = radiusAtY * Math.cos(lon) + Math.sin(jPhi) * jitter;
     const yJ = y + (pseudoRandom(i * 7 + 9) - 0.5) * jitter;
 
-    // Normalize back to unit sphere
+    // Normalize to exact unit sphere
     const len = Math.sqrt(x * x + yJ * yJ + z * z);
-    positions[i * 3] = x / len;
-    positions[i * 3 + 1] = yJ / len;
-    positions[i * 3 + 2] = z / len;
+    const nx = x / len;
+    const ny = yJ / len;
+    const nz = z / len;
 
-    // Compute lat/lon for land sampling
-    const latDeg = (Math.asin(Math.max(-1, Math.min(1, yJ / len))) * 180) / Math.PI;
-    const lonDeg = (Math.atan2(x / len, z / len) * 180) / Math.PI;
+    positions[i * 3] = nx;
+    positions[i * 3 + 1] = ny;
+    positions[i * 3 + 2] = nz;
+
+    // True Geographic Spherical Coordinates: lat [-90, 90], lon [-180, 180]
+    const latDeg = (Math.asin(Math.max(-1, Math.min(1, ny))) * 180) / Math.PI;
+    const lonDeg = (Math.atan2(nx, nz) * 180) / Math.PI;
 
     const mx = Math.floor(((lonDeg + 180) / 360) * (mapW - 1));
     const my = Math.floor(((90 - latDeg) / 180) * (mapH - 1));
     const idx = my * mapW + mx;
 
-    const isLand = landData[idx] > 128;
+    const isLand = landData[idx] > 120;
     const blurVal = blurData[idx];
 
-    // Coast: land point near edge (high land, lower blur) or ocean point near land (low land, higher blur)
-    let isCoast = false;
+    // Coast: land point near boundary (low blurVal relative to interior)
+    let coastVal = 0.0;
     if (isLand) {
-      isCoast = blurVal < 200; // Land point near coast edge
+      coastVal = Math.max(0, (230 - blurVal) / 230.0);
     }
 
     landAttr[i] = isLand ? 1.0 : 0.0;
-    coastAttr[i] = isCoast ? 1.0 : 0.0;
+    coastAttr[i] = coastVal;
 
-    // ~1.5% of ocean points become specks
+    // 1.5% random sparse specks over ocean for tactile print texture
     if (!isLand) {
-      oceanSpeckAttr[i] = pseudoRandom(i * 13 + 17) < 0.015 ? 1.0 : 0.0;
+      oceanSpeckAttr[i] = pseudoRandom(i * 13 + 19) < 0.015 ? 1.0 : 0.0;
     }
   }
 
   return { positions, landAttr, coastAttr, oceanSpeckAttr };
 }
 
-// ─────────────────────────────────────────────────────────────
-// Generate stray dust dots outside the sphere limb
-// ─────────────────────────────────────────────────────────────
 function generateDustPoints(count: number): { positions: Float32Array; sizes: Float32Array } {
   const positions = new Float32Array(count * 3);
   const sizes = new Float32Array(count);
 
   for (let i = 0; i < count; i++) {
-    // Place just outside the sphere (radius 1.02 to 1.12)
     const r = 1.02 + pseudoRandom(i * 11 + 1) * 0.10;
     const phi = pseudoRandom(i * 11 + 3) * Math.PI * 2;
-    const cosTheta = (pseudoRandom(i * 11 + 5) * 2 - 1) * 0.85; // keep mostly on visible hemisphere
+    const cosTheta = (pseudoRandom(i * 11 + 5) * 2 - 1) * 0.82;
     const sinTheta = Math.sqrt(1 - cosTheta * cosTheta);
 
     positions[i * 3] = r * sinTheta * Math.cos(phi);
     positions[i * 3 + 1] = r * sinTheta * Math.sin(phi);
     positions[i * 3 + 2] = r * cosTheta;
-
-    // 1-2px size
     sizes[i] = 1.0 + pseudoRandom(i * 11 + 7) * 1.0;
   }
 
@@ -427,34 +389,40 @@ function generateDustPoints(count: number): { positions: Float32Array; sizes: Fl
 }
 
 // ─────────────────────────────────────────────────────────────
-// React Three Fiber Components
+// Inner 3D Scene Component
 // ─────────────────────────────────────────────────────────────
-
-interface HalftoneEarthMeshProps {
+interface EarthMeshProps {
   isHovered: React.MutableRefObject<boolean>;
   scrollProgress: React.MutableRefObject<number>;
+  mouseParallax: React.MutableRefObject<{ x: number; y: number }>;
 }
 
-const HalftoneEarthMesh: React.FC<HalftoneEarthMeshProps> = ({ isHovered, scrollProgress }) => {
-  const pointsRef = useRef<THREE.Points>(null);
-  const dustRef = useRef<THREE.Points>(null);
+const EarthMesh: React.FC<EarthMeshProps> = ({ isHovered, scrollProgress, mouseParallax }) => {
   const groupRef = useRef<THREE.Group>(null);
-  const { size, gl } = useThree();
+  const { viewport, size, gl } = useThree();
 
   const prefersReducedMotion = useMemo(
     () => window.matchMedia('(prefers-reduced-motion: reduce)').matches,
     []
   );
 
-  // Memoize land mask and point generation
+  // Generate optimized points on Fibonacci sphere with instant module-level caching
   const { globeGeometry, dustGeometry } = useMemo(() => {
-    const MAP_W = 4096;
-    const MAP_H = 2048;
-    const { landData, blurData } = createLandMask(MAP_W, MAP_H);
+    if (cachedGlobeGeometry && cachedDustGeometry) {
+      return { globeGeometry: cachedGlobeGeometry, dustGeometry: cachedDustGeometry };
+    }
 
-    const NUM_POINTS = 300000;
-    const { positions, landAttr, coastAttr, oceanSpeckAttr } = generateGlobePoints(
-      NUM_POINTS, MAP_W, MAP_H, landData, blurData
+    const MAP_W = 1440;
+    const MAP_H = 720;
+    const { landData, blurData } = createHighResLandMask(MAP_W, MAP_H);
+
+    const NUM_POINTS = 95000;
+    const { positions, landAttr, coastAttr, oceanSpeckAttr } = generateFibonacciPoints(
+      NUM_POINTS,
+      MAP_W,
+      MAP_H,
+      landData,
+      blurData
     );
 
     const geo = new THREE.BufferGeometry();
@@ -463,21 +431,21 @@ const HalftoneEarthMesh: React.FC<HalftoneEarthMeshProps> = ({ isHovered, scroll
     geo.setAttribute('aCoast', new THREE.Float32BufferAttribute(coastAttr, 1));
     geo.setAttribute('aOceanSpeck', new THREE.Float32BufferAttribute(oceanSpeckAttr, 1));
 
-    // Dust
-    const dust = generateDustPoints(600);
+    const dust = generateDustPoints(350);
     const dustGeo = new THREE.BufferGeometry();
     dustGeo.setAttribute('position', new THREE.Float32BufferAttribute(dust.positions, 3));
     dustGeo.setAttribute('aSize', new THREE.Float32BufferAttribute(dust.sizes, 1));
 
+    cachedGlobeGeometry = geo;
+    cachedDustGeometry = dustGeo;
+
     return { globeGeometry: geo, dustGeometry: dustGeo };
   }, []);
 
-  // Shader material uniforms
   const globeUniforms = useMemo(
     () => ({
-      uTime: { value: 0 },
       uDpr: { value: Math.min(window.devicePixelRatio, 2) },
-      uPointScale: { value: 4.8 },
+      uPointScale: { value: 5.2 },
     }),
     []
   );
@@ -490,38 +458,53 @@ const HalftoneEarthMesh: React.FC<HalftoneEarthMeshProps> = ({ isHovered, scroll
     []
   );
 
-  // Initial orientation: longitude ~115°E, tilt ~0.3 rad north
-  const baseRotationY = useMemo(() => -(115 * Math.PI) / 180, []);
+  // Initial orientation: Longitude ~135°E facing camera, tilt ~0.35 rad toward North
+  const baseRotationY = useMemo(() => -2.43, []);
+  const autoRotationY = useRef(0);
 
-  useFrame((state, delta) => {
+  useFrame((state) => {
     if (!groupRef.current) return;
 
     const time = state.clock.elapsedTime;
-
-    // Update uniforms
-    globeUniforms.uTime.value = time;
     dustUniforms.uTime.value = time;
 
-    // Scale point size based on viewport width (responsive)
-    const scale = Math.max(3.2, Math.min(6.5, size.width / 250));
-    globeUniforms.uPointScale.value = scale;
+    // Responsive dot sizing: bold, tactile halftone dots
+    const pointScale = Math.max(4.2, Math.min(6.8, size.width / 220));
+    globeUniforms.uPointScale.value = pointScale;
 
-    // Auto-rotate (0.00035 rad/frame ≈ 0.021 rad/s at 60fps)
+    // Auto-rotate: 0.00035 rad/frame, pause on hover, disabled on prefers-reduced-motion
     if (!isHovered.current && !prefersReducedMotion) {
-      groupRef.current.rotation.y += 0.00035;
+      autoRotationY.current += 0.00035;
     }
 
-    // Scroll-linked transforms
+    // Scroll-linked transforms:
+    // Rotates slowly toward next region, scales 1 to 1.12
     const sp = scrollProgress.current;
-    const scrollRotation = sp * 0.6; // Rotate toward next region
-    const scrollScale = 1 + sp * 0.12; // Scale 1 to 1.12
+    const scrollRotation = sp * 0.55;
+    const scrollScale = 1 + sp * 0.12;
 
-    groupRef.current.rotation.y = baseRotationY + (time * 0.00035 * 60) * (prefersReducedMotion ? 0 : 1) + scrollRotation;
-    groupRef.current.rotation.x = 0.3; // 0.3 rad tilt toward north
-    groupRef.current.scale.setScalar(scrollScale);
+    // Subtle mouse parallax (max 2° = 0.035 rad)
+    const mouseRotY = mouseParallax.current.x * 0.035;
+    const mouseRotX = mouseParallax.current.y * 0.025;
+
+    // ─────────────────────────────────────────────────────────
+    // Precision Dome Placement:
+    // Apex touches exactly near the top of the canvas (16px below top edge)
+    // Radius = viewport.width * 0.68
+    // ─────────────────────────────────────────────────────────
+    const sphereRadius = Math.max(viewport.width * 0.68, viewport.height * 1.35);
+    const pixelWorldUnit = viewport.height / Math.max(1, size.height);
+    const topMarginWorld = 16 * pixelWorldUnit;
+    const yApex = viewport.height / 2 - topMarginWorld;
+    const yCenter = yApex - sphereRadius;
+
+    groupRef.current.position.set(0, yCenter, 0);
+    groupRef.current.scale.setScalar(sphereRadius * scrollScale);
+
+    groupRef.current.rotation.y = baseRotationY + autoRotationY.current + scrollRotation + mouseRotY;
+    groupRef.current.rotation.x = 0.35 + mouseRotX;
   });
 
-  // Update DPR on resize
   useEffect(() => {
     const dpr = Math.min(gl.getPixelRatio(), 2);
     globeUniforms.uDpr.value = dpr;
@@ -530,8 +513,8 @@ const HalftoneEarthMesh: React.FC<HalftoneEarthMeshProps> = ({ isHovered, scroll
 
   return (
     <group ref={groupRef}>
-      {/* Main halftone globe points */}
-      <points ref={pointsRef} geometry={globeGeometry}>
+      {/* Halftone Earth Point Cloud (single draw call) */}
+      <points geometry={globeGeometry}>
         <shaderMaterial
           vertexShader={vertexShader}
           fragmentShader={fragmentShader}
@@ -543,7 +526,7 @@ const HalftoneEarthMesh: React.FC<HalftoneEarthMeshProps> = ({ isHovered, scroll
       </points>
 
       {/* Stray dust dots outside limb */}
-      <points ref={dustRef} geometry={dustGeometry}>
+      <points geometry={dustGeometry}>
         <shaderMaterial
           vertexShader={dustVertexShader}
           fragmentShader={dustFragmentShader}
@@ -573,7 +556,9 @@ export const HalftoneGlobe: React.FC<HalftoneGlobeProps> = ({
   const scrollRef = useRef(scrollProgressProp);
   scrollRef.current = scrollProgressProp;
 
-  // Visibility: pause render when off-screen
+  const mouseParallax = useRef({ x: 0, y: 0 });
+
+  // Pause render loop when off-screen
   const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
@@ -591,68 +576,102 @@ export const HalftoneGlobe: React.FC<HalftoneGlobeProps> = ({
   // Fade-in on load: opacity 0 to 1 over 1.2s with slight rise
   const [loaded, setLoaded] = useState(false);
   useEffect(() => {
-    const timer = setTimeout(() => setLoaded(true), 100);
-    return () => clearTimeout(timer);
+    const id = requestAnimationFrame(() => setLoaded(true));
+    return () => cancelAnimationFrame(id);
   }, []);
 
-  // Scroll-linked fade: fade out as hero leaves
-  const fadeOpacity = Math.max(0, 1 - scrollRef.current * 1.3);
+  // Mouse parallax tracking
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!containerRef.current) return;
+    const rect = containerRef.current.getBoundingClientRect();
+    const nx = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
+    const ny = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
+    mouseParallax.current = { x: nx, y: -ny };
+  };
+
+  const handleMouseEnter = () => {
+    isHoveredRef.current = true;
+  };
+
+  const handleMouseLeave = () => {
+    isHoveredRef.current = false;
+    mouseParallax.current = { x: 0, y: 0 };
+  };
+
+  // Fade out as hero leaves
+  const fadeOpacity = Math.max(0, 1 - scrollRef.current * 1.35);
 
   return (
     <div
       ref={containerRef}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      onMouseMove={handleMouseMove}
       className={`relative w-full h-full select-none ${className}`}
       style={{
         opacity: loaded ? fadeOpacity : 0,
         transform: loaded ? 'translateY(0)' : 'translateY(24px)',
-        transition: loaded ? 'opacity 0.15s ease-out' : 'opacity 1.2s ease-out, transform 1.2s ease-out',
+        transition: loaded
+          ? 'opacity 0.15s ease-out'
+          : 'opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1)',
       }}
-      onMouseEnter={() => { isHoveredRef.current = true; }}
-      onMouseLeave={() => { isHoveredRef.current = false; }}
+      aria-label="Horizon Halftone Earth"
     >
-      {/* Edge fade: CSS mask-image radial-gradient + white gradient overlays */}
+      {/* 
+        Edge fade:
+        1. Radial mask image on the canvas wrapper
+        2. Linear white/off-white gradient overlays at top, left 10%, right 10%
+      */}
       <div
         className="absolute inset-0 z-10 pointer-events-none"
         aria-hidden="true"
         style={{
           background: `
-            linear-gradient(to bottom, #FAFAF9 0%, transparent 28%),
-            linear-gradient(to right, #FAFAF9 0%, transparent 12%),
-            linear-gradient(to left, #FAFAF9 0%, transparent 12%)
+            linear-gradient(to bottom, rgba(250, 250, 249, 0.95) 0%, rgba(250, 250, 249, 0.4) 6%, transparent 14%),
+            linear-gradient(to right, #FAFAF9 0%, transparent 10%),
+            linear-gradient(to left, #FAFAF9 0%, transparent 10%)
           `,
         }}
       />
 
       {isVisible && (
-        <Canvas
-          dpr={[1, 2]}
-          camera={{
-            fov: 30,
-            near: 0.1,
-            far: 100,
-            position: [0, 0, 4.2],
-          }}
-          gl={{
-            antialias: false,
-            alpha: true,
-            powerPreference: 'high-performance',
-          }}
+        <div
+          className="w-full h-full"
           style={{
-            pointerEvents: 'none',
-            width: '100%',
-            height: '100%',
+            maskImage: 'radial-gradient(ellipse 110% 90% at 50% 55%, black 68%, transparent 98%)',
+            WebkitMaskImage: 'radial-gradient(ellipse 110% 90% at 50% 55%, black 68%, transparent 98%)',
           }}
-          frameloop={isVisible ? 'always' : 'never'}
         >
-          <HalftoneEarthMesh
-            isHovered={isHoveredRef}
-            scrollProgress={scrollRef}
-          />
-        </Canvas>
+          <Canvas
+            dpr={[1, 2]}
+            camera={{
+              fov: 30,
+              near: 0.1,
+              far: 100,
+              position: [0, 0, 4.0],
+            }}
+            gl={{
+              antialias: false,
+              alpha: true,
+              powerPreference: 'high-performance',
+            }}
+            style={{
+              pointerEvents: 'none',
+              width: '100%',
+              height: '100%',
+            }}
+            frameloop={isVisible ? 'always' : 'never'}
+          >
+            <EarthMesh
+              isHovered={isHoveredRef}
+              scrollProgress={scrollRef}
+              mouseParallax={mouseParallax}
+            />
+          </Canvas>
+        </div>
       )}
     </div>
   );
 };
 
 export default HalftoneGlobe;
-

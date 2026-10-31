@@ -35,10 +35,10 @@
     <link rel="alternate icon" type="image/png" href="/logo.png" />
     <link rel="apple-touch-icon" href="/favicon.svg" />
 
-    <!-- Typography: Instrument Serif + Inter Variable + JetBrains Mono -->
+    <!-- Typography: Instrument Serif + Inter Variable + JetBrains Mono + Poppins -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Poppins:wght@300;700&display=swap" rel="stylesheet">
 
     <!-- Schema.org JSON-LD Structured Data -->
     <script type="application/ld+json">
@@ -66,6 +66,240 @@
     </script>
   </head>
   <body class="antialiased bg-[#FAFAF9] text-[#0A0A0A]" style="background:#FAFAF9;color:#0A0A0A;">
+    <!-- Critical Full-Screen Boot Loader Overlay (Strictly Monochrome, Instant First Paint) -->
+    <style id="horizon-boot-loader-css">
+      html.horizon-boot-locked,
+      body.horizon-boot-locked {
+        overflow: hidden !important;
+        height: 100% !important;
+      }
+      #horizon-boot-loader {
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        background: #FDFDFD;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        box-sizing: border-box;
+        width: 100vw;
+        height: 100vh;
+        height: 100dvh;
+        padding: 28px 32px;
+        padding-top: max(28px, env(safe-area-inset-top));
+        padding-bottom: max(28px, env(safe-area-inset-bottom));
+        padding-left: max(32px, env(safe-area-inset-left));
+        padding-right: max(32px, env(safe-area-inset-right));
+        color: #111111;
+        user-select: none;
+        -webkit-user-select: none;
+        pointer-events: auto;
+        opacity: 1;
+        transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.6s;
+      }
+      @media (max-width: 480px) {
+        #horizon-boot-loader {
+          padding: 24px 20px;
+          padding-top: max(24px, env(safe-area-inset-top));
+          padding-bottom: max(24px, env(safe-area-inset-bottom));
+          padding-left: max(20px, env(safe-area-inset-left));
+          padding-right: max(20px, env(safe-area-inset-right));
+        }
+      }
+      .hbl-top-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+      }
+      .hbl-label {
+        font-family: 'Poppins', sans-serif;
+        font-weight: 300;
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
+        color: #6B6B6B;
+        line-height: 1;
+      }
+      .hbl-center-block {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: center;
+        width: 100%;
+      }
+      .hbl-tag-row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .hbl-pulse-dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: #111111;
+        animation: hblPulse 1s infinite ease-in-out;
+      }
+      @keyframes hblPulse {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.25; }
+      }
+      .hbl-tag-text {
+        font-family: 'Poppins', sans-serif;
+        font-weight: 700;
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: #111111;
+        line-height: 1;
+      }
+      .hbl-status-message {
+        margin-top: 18px;
+        font-family: ui-monospace, "SF Mono", Menlo, Consolas, "Courier New", monospace;
+        font-weight: 700;
+        text-transform: uppercase;
+        font-size: clamp(14px, 2.2vw, 20px);
+        color: #111111;
+        white-space: nowrap;
+        min-height: 1.4em;
+        line-height: 1.4;
+      }
+      .hbl-progress-track {
+        margin-top: 14px;
+        height: 1px;
+        width: min(160px, 40vw);
+        background: #DCDCDC;
+        position: relative;
+        overflow: hidden;
+      }
+      .hbl-progress-fill {
+        height: 100%;
+        width: 0%;
+        background: #111111;
+        transform-origin: left;
+      }
+      .hbl-bottom-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        width: 100%;
+      }
+      .hbl-percentage {
+        font-family: ui-monospace, "SF Mono", Menlo, Consolas, "Courier New", monospace;
+        font-weight: 700;
+        font-size: clamp(22px, 4vw, 34px);
+        color: #111111;
+        line-height: 1;
+      }
+    </style>
+
+    <div id="horizon-boot-loader" role="status" aria-live="polite">
+      <!-- 1) Top Bar -->
+      <div class="hbl-top-bar">
+        <span class="hbl-label">HORIZON</span>
+        <span class="hbl-label">NETWORK · LIVE</span>
+      </div>
+
+      <!-- 2) Center Block -->
+      <div class="hbl-center-block">
+        <div class="hbl-tag-row">
+          <div class="hbl-pulse-dot" id="hbl-dot"></div>
+          <span class="hbl-tag-text">SYSTEM BOOT</span>
+        </div>
+        <div class="hbl-status-message" id="hbl-message">INITIALIZING HORIZON // CORE</div>
+        <div class="hbl-progress-track">
+          <div class="hbl-progress-fill" id="hbl-fill"></div>
+        </div>
+      </div>
+
+      <!-- 3) Bottom Bar -->
+      <div class="hbl-bottom-bar">
+        <span class="hbl-label">HORIZON 2026</span>
+        <span class="hbl-percentage" id="hbl-pct">000%</span>
+      </div>
+    </div>
+
+    <script>
+      (function() {
+        var loader = document.getElementById('horizon-boot-loader');
+        if (!loader) return;
+
+        document.documentElement.classList.add('horizon-boot-locked');
+        document.body.classList.add('horizon-boot-locked');
+
+        var prefersReduced = false;
+        try {
+          prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        } catch (e) {}
+
+        var dot = document.getElementById('hbl-dot');
+        if (prefersReduced && dot) {
+          dot.style.animation = 'none';
+        }
+
+        var messageEl = document.getElementById('hbl-message');
+        var fillEl = document.getElementById('hbl-fill');
+        var pctEl = document.getElementById('hbl-pct');
+
+        var messages = [
+          'INITIALIZING HORIZON // CORE',
+          'RESOLVING SERVICES & REGISTRY',
+          'ESTABLISHING SECURE CONNECTION',
+          'VERIFIED // ENTERING HORIZON'
+        ];
+
+        var duration = prefersReduced ? 800 : 3200;
+        var startTime = null;
+
+        function easeInOutCubic(t) {
+          return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+        }
+
+        function updateFrame(timestamp) {
+          if (!startTime) startTime = timestamp;
+          var elapsed = timestamp - startTime;
+          var rawProgress = Math.min(1, elapsed / duration);
+          var progress = easeInOutCubic(rawProgress);
+
+          var pct = Math.floor(progress * 100);
+          var pctStr = (pct < 10 ? '00' : pct < 100 ? '0' : '') + pct + '%';
+          if (pctEl) pctEl.textContent = pctStr;
+          if (fillEl) fillEl.style.width = (progress * 100) + '%';
+
+          var msgIndex = Math.min(3, Math.floor(rawProgress * 4));
+          if (messageEl && messageEl.textContent !== messages[msgIndex]) {
+            messageEl.textContent = messages[msgIndex];
+          }
+
+          if (rawProgress < 1) {
+            requestAnimationFrame(updateFrame);
+          } else {
+            if (pctEl) pctEl.textContent = '100%';
+            if (fillEl) fillEl.style.width = '100%';
+            if (messageEl) messageEl.textContent = messages[3];
+
+            setTimeout(function() {
+              loader.style.opacity = '0';
+              loader.style.visibility = 'hidden';
+
+              setTimeout(function() {
+                document.documentElement.classList.remove('horizon-boot-locked');
+                document.body.classList.remove('horizon-boot-locked');
+                document.documentElement.style.overflow = '';
+                document.body.style.overflow = '';
+                if (loader.parentNode) loader.parentNode.removeChild(loader);
+                var styleEl = document.getElementById('horizon-boot-loader-css');
+                if (styleEl && styleEl.parentNode) styleEl.parentNode.removeChild(styleEl);
+                window.dispatchEvent(new CustomEvent('horizon:boot-complete'));
+              }, 600);
+            }, 350);
+          }
+        }
+
+        requestAnimationFrame(updateFrame);
+      })();
+    </script>
+
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
